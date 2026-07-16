@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OutlookTools — مستندات کامل</title>
+<style>
+:root{--primary:#0a1628;--accent:#3b82f6;--accent2:#8b5cf6;--green:#22c55e;--orange:#f97316;--red:#ef4444;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--code:#f1f5f9;--blue-bg:#eff6ff;--green-bg:#f0fdf4;--orange-bg:#fff7ed;--purple-bg:#faf5ff;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;background:var(--bg);color:var(--text);line-height:1.8;}
+.hero{background:linear-gradient(135deg,#1e3a5f 0%,#0a1628 100%);color:#fff;padding:3rem 2rem;text-align:center;}
+.hero h1{font-size:2.2rem;margin-bottom:.5rem;}
+.hero .sub{opacity:.8;font-size:1.05rem;}
+.hero .version{display:inline-block;background:var(--accent);padding:.2rem .8rem;border-radius:20px;font-size:.8rem;margin-top:.8rem;}
+.container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;}
+nav.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:2rem;}
+nav.toc h2{color:var(--accent);font-size:1.2rem;margin-bottom:1rem;}
+nav.toc ul{list-style:none;columns:2;column-gap:2rem;}
+nav.toc li{padding:.3rem 0;}
+nav.toc a{color:var(--accent);text-decoration:none;}
+nav.toc a:hover{text-decoration:underline;}
+h2{color:var(--primary);font-size:1.5rem;margin:2.5rem 0 1rem;padding-right:.8rem;border-right:4px solid var(--accent);}
+h3{color:var(--accent2);font-size:1.2rem;margin:1.5rem 0 .7rem;}
+p{margin-bottom:.7rem;}
+ul,ol{margin-right:1.5rem;margin-bottom:1rem;}
+li{margin-bottom:.3rem;}
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+th{background:var(--primary);color:#fff;padding:.7rem .8rem;text-align:right;font-weight:600;}
+td{padding:.6rem .8rem;border-bottom:1px solid var(--border);text-align:right;}
+tr:hover td{background:#f8fafc;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1rem 0;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.tip{background:var(--green-bg);border-right:4px solid var(--green);padding:1rem;border-radius:6px;margin:1rem 0;}
+.warn{background:var(--orange-bg);border-right:4px solid var(--orange);padding:1rem;border-radius:6px;margin:1rem 0;}
+.info{background:var(--blue-bg);border-right:4px solid var(--accent);padding:1rem;border-radius:6px;margin:1rem 0;}
+.purple{background:var(--purple-bg);border-right:4px solid var(--accent2);padding:1rem;border-radius:6px;margin:1rem 0;}
+code{background:var(--code);padding:.15rem .5rem;border-radius:4px;font-family:'Fira Code',Consolas,monospace;font-size:.88rem;}
+pre{background:var(--code);padding:1rem;border-radius:8px;overflow-x:auto;direction:ltr;text-align:left;margin:1rem 0;font-size:.88rem;}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600;color:#fff;margin-left:.3rem;}
+.b-blue{background:var(--accent);}.b-green{background:var(--green);}.b-purple{background:var(--accent2);}.b-orange{background:var(--orange);}.b-red{background:var(--red);}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin:1rem 0;}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;transition:box-shadow .2s;}
+.feature-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.feature-card .icon{font-size:2rem;margin-bottom:.5rem;}
+.feature-card h4{color:var(--primary);margin-bottom:.5rem;}
+.steps{counter-reset:step;list-style:none;margin-right:0;}
+.steps li{counter-increment:step;padding:.8rem .8rem .8rem 3.5rem;position:relative;margin-bottom:.5rem;background:var(--card);border:1px solid var(--border);border-radius:8px;}
+.steps li::before{content:counter(step);position:absolute;right:1rem;top:.8rem;background:var(--accent);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;}
+footer{text-align:center;padding:2rem;color:var(--muted);border-top:1px solid var(--border);margin-top:3rem;font-size:.85rem;}
+@media print{.hero{background:#1e3a5f!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+@media(max-width:768px){nav.toc ul{columns:1;}.feature-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<h1>📘 OutlookTools</h1>
+<p class="sub">مستندات کامل استفاده از افزونه Open-Source اوت‌لوک</p>
+<span class="version">v1.1.0 — MIT License</span>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+<h2>فهرست مطالب</h2>
+<ul>
+<li><a href="#intro">۱. معرفی و ویژگی‌ها</a></li>
+<li><a href="#requirements">۲. پیش‌نیازها</a></li>
+<li><a href="#install">۳. نصب و راه‌اندازی</a></li>
+<li><a href="#ribbon">۴. راهنمای ریبون</a></li>
+<li><a href="#reply">۵. پاسخ با پیوست</a></li>
+<li><a href="#forward">۶. فوروارد بدون پیوست</a></li>
+<li><a href="#search">۷. جست‌وجوی پیشرفته</a></li>
+<li><a href="#archive">۸. بایگانی هوشمند</a></li>
+<li><a href="#reminder">۹. پاک‌سازی یادآورها</a></li>
+<li><a href="#templates">۱۰. قالب‌های ایمیل</a></li>
+<li><a href="#bulk">۱۱. عملیات گروهی</a></li>
+<li><a href="#stats">۱۲. آمار ایمیل</a></li>
+<li><a href="#settings">۱۳. تنظیمات</a></li>
+<li><a href="#security">۱۴. امنیت و حریم خصوصی</a></li>
+<li><a href="#faq">۱۵. پرسش‌های متداول</a></li>
+<li><a href="#shortcuts">۱۶. میانبرهای مفید</a></li>
+<li><a href="#changelog">۱۷. تغییرات نسخه‌ها</a></li>
+</ul>
+</nav>
+
+<!-- SECTION 1 -->
+<h2 id="intro">۱. معرفی و ویژگی‌ها</h2>
+<div class="card">
+<p><strong>OutlookTools</strong> یک افزونهٔ <strong>Open-Source</strong> و <strong>رایگان</strong> برای Microsoft Outlook است که امکانات گمشدهٔ اوت‌لوک را اضافه می‌کند. این پروژه با مجوز MIT منتشر شده و کد منبع آن برای همه قابل بررسی است.</p>
+<p><strong>مزیت اصلی:</strong> چون کد باز است، می‌توانید قبل از نصب، کد را بخوانید و مطمئن شوید هیچ داده‌ای آپلود نمی‌شود.</p>
+</div>
+
+<div class="feature-grid">
+<div class="feature-card">
+<div class="icon">📎</div>
+<h4>پاسخ با پیوست</h4>
+<p>Reply و Reply All با حفظ فایل‌های پیوست اصلی</p>
+</div>
+<div class="feature-card">
+<div class="icon">📨</div>
+<h4>فوروارد بدون پیوست</h4>
+<p>Forward با حذف فایل‌ها ولی حفظ تصاویر امضا</p>
+</div>
+<div class="feature-card">
+<div class="icon">🔍</div>
+<h4>جست‌وجوی پیشرفته</h4>
+<p>جست‌وجو در همه صندوق‌ها و آرشیوها با پیش‌نمایش</p>
+</div>
+<div class="feature-card">
+<div class="icon">📦</div>
+<h4>بایگانی هوشمند</h4>
+<p>انتقال خودکار ایمیل‌های قدیمی به آرشیوهای فصلی</p>
+</div>
+<div class="feature-card">
+<div class="icon">⏰</div>
+<h4>پاک‌سازی یادآورها</h4>
+<p>حذف خودکار یادآورهای جلسات تمام‌شده</p>
+</div>
+<div class="feature-card">
+<div class="icon">📧</div>
+<h4>قالب‌های ایمیل</h4>
+<p>ذخیره و استفاده سریع از قالب‌های تکراری</p>
+</div>
+<div class="feature-card">
+<div class="icon">⚡</div>
+<h4>عملیات گروهی</h4>
+<p>حذف/انتقال/پرچم/دسته‌بندی چند ایمیل با یک کلیک</p>
+</div>
+<div class="feature-card">
+<div class="icon">📊</div>
+<h4>آمار ایمیل</h4>
+<p>تحلیل فرستنده‌ها، ساعت‌ها، دسته‌ها و اندازه‌ها</p>
+</div>
+</div>
+
+<!-- SECTION 2 -->
+<h2 id="requirements">۲. پیش‌نیازها</h2>
+<table>
+<tr><th>آیتم</th><th>حداقل نسخه</th><th>توصیه شده</th></tr>
+<tr><td>سیستم‌عامل</td><td>Windows 10</td><td>Windows 11</td></tr>
+<tr><td>اوت‌لوک</td><td>Outlook 2016</td><td>Outlook 365 / 2021</td></tr>
+<tr><td>فریم‌ورک</td><td>.NET Framework 4.8</td><td>.NET Framework 4.8</td></tr>
+<tr><td>دسترسی</td><td colspan="2">نیازی به Admin Rights نیست</td></tr>
+<tr><td>فضای دیسک</td><td colspan="2">~۵ مگابایت</td></tr>
+</table>
+
+<div class="info">
+<strong>نکته:</strong> .NET Framework 4.8 به صورت پیش‌فرض روی Windows 10/11 نصب است. اگر نبود، از سایت مایکروسافت دانلود کنید.
+</div>
+
+<!-- SECTION 3 -->
+<h2 id="install">۳. نصب و راه‌اندازی</h2>
+
+<h3>۳.۱. نصب از سورس (توسعه‌دهندگان)</h3>
+<ol class="steps">
+<li>Visual Studio 2019 یا 2022 را باز کنید</li>
+<li>File → Open → Solution → فایل <code>OutlookTools.sln</code> را انتخاب کنید</li>
+<li>منتظر بمانید NuGet پکیج‌ها را بازیابی کند</li>
+<li>Build → Build Solution را بزنید (<code>Ctrl+Shift+B</code>)</li>
+<li>فایل خروجی در پوشه <code>bin/Debug/</code> ایجاد می‌شود</li>
+<li>اوت‌لوک را ببندید و فایل VSTO را اجرا کنید</li>
+<li>اوت‌لوک را باز کنید — زبانه <strong>OutlookTools</strong> ظاهر می‌شود</li>
+</ol>
+
+<h3>۳.۲. نصب از فایل VSTO</h3>
+<ol class="steps">
+<li>فایل <code>OutlookTools.vsto</code> را اجرا کنید</li>
+<li>در پنجرهٔ ظاهر شده، Install را بزنید</li>
+<li>صبر کنید تا نصب تمام شود</li>
+<li>اوت‌لوک را باز کنید</li>
+</ol>
+
+<div class="tip">
+<strong>آپدیت:</strong> برای ارتقا، فقط نسخهٔ جدید VSTO را روی همان نسخهٔ قبلی اجرا کنید. نیازی به حذف نسخهٔ قدیمی نیست.
+</div>
+
+<h3>۳.۳. حذف</h3>
+<p>از مسیر <strong>Settings → Apps → OutlookTools → Uninstall</strong> یا فایل نصب را دوباره اجرا کنید و گزینهٔ Remove را بزنید.</p>
+
+<!-- SECTION 4 -->
+<h2 id="ribbon">۴. راهنمای ریبون</h2>
+<div class="card">
+<p>پس از نصب، دو تغییر در ریبون اوت‌لوک ایجاد می‌شود:</p>
+</div>
+
+<h3>۴.۱. زبانهٔ Home (تغییرات)</h3>
+<table>
+<tr><th>دکمه</th><th>عملکرد</th><th>موقعیت</th></tr>
+<tr><td>Reply with Attachments</td><td>پاسخ با حفظ پیوست‌ها</td><td>گروه OutlookTools، کنار Reply</td></tr>
+<tr><td>Reply All with Attachments</td><td>پاسخ به همه با حفظ پیوست‌ها</td><td>گروه OutlookTools</td></tr>
+<tr><td>Forward without Attachments</td><td>فوروارد بدون پیوست</td><td>گروه OutlookTools</td></tr>
+<tr><td>Advanced Search</td><td>باز کردن پنجرهٔ جست‌وجو</td><td>گروه OutlookTools</td></tr>
+</table>
+
+<h3>۴.۲. زبانهٔ OutlookTools (جدید)</h3>
+<table>
+<tr><th>گروه</th><th>دکمه</th><th>عملکرد</th></tr>
+<tr><td rowspan="1">Search</td><td>Advanced Search</td><td>جست‌وجوی پیشرفته</td></tr>
+<tr><td rowspan="2">Archive & Cleanup</td><td>Smart Archive</td><td>بایگانی هوشمند فصلی</td></tr>
+<tr><td>Reminder Cleanup</td><td>پاک‌سازی یادآورها</td></tr>
+<tr><td rowspan="3">Productivity</td><td>Email Templates</td><td>مدیریت قالب‌های ایمیل</td></tr>
+<tr><td>Bulk Actions</td><td>منوی عملیات گروهی</td></tr>
+<tr><td>Email Statistics</td><td>آمار و تحلیل ایمیل‌ها</td></tr>
+<tr><td rowspan="1">Settings</td><td>Settings</td><td>تنظیمات افزونه</td></tr>
+</table>
+
+<!-- SECTION 5 -->
+<h2 id="reply">۵. پاسخ با پیوست (Reply with Attachments)</h2>
+<div class="card">
+<p>وقتی ایمیلی با پیوست دریافت می‌کنید و می‌خواهید پاسخ دهید، معمولاً پیوست‌ها حذف می‌شوند. این قابلیت پیوست‌ها را حفظ می‌کند.</p>
+</div>
+
+<h3>مراحل استفاده:</h3>
+<ol>
+<li>ایمیل مورد نظر را در اوت‌لوک انتخاب کنید</li>
+<li>روی دکمهٔ <strong>Reply with Attachments</strong> در زبانهٔ Home کلیک کنید</li>
+<li>پنجرهٔ پاسخ باز می‌شود — تمام پیوست‌های اصلی در آن موجود است</li>
+<li>متن پاسخ خود را بنویسید و ارسال کنید</li>
+</ol>
+
+<div class="tip">
+<strong>نکته:</strong> تصاویر امضای درون‌خطی (inline signature images) نیز حفظ می‌شوند. فقط فایل‌های پیوست واقعی (PDF, DOCX, XLSX و ...) باقی می‌مانند.
+</div>
+
+<h3>تفاوت Reply vs Reply All:</h3>
+<table>
+<tr><th>دکمه</th><th>رفتار</th></tr>
+<tr><td>Reply with Attachments</td><td>فقط به فرستنده پاسخ می‌دهد + پیوست‌ها حفظ می‌شوند</td></tr>
+<tr><td>Reply All with Attachments</td><td>به همه گیرندگان پاسخ می‌دهد + پیوست‌ها حفظ می‌شوند</td></tr>
+</table>
+
+<!-- SECTION 6 -->
+<h2 id="forward">۶. فوروارد بدون پیوست (Forward without Attachments)</h2>
+<div class="card">
+<p>گاهی می‌خواهید محتوای یک ایمیل را فوروارد کنید ولی فایل‌های پیوست را نفرستید (مثلاً برای حفظ حریم خصوصی).</p>
+</div>
+
+<h3>مراحل استفاده:</h3>
+<ol>
+<li>ایمیل مورد نظر را انتخاب کنید</li>
+<li>روی <strong>Forward without Attachments</strong> کلیک کنید</li>
+<li>پنجرهٔ فوروارد باز می‌شود — فایل‌ها حذف شده‌اند ولی تصاویر امضا باقی است</li>
+<li>متن را ویرایش و ارسال کنید</li>
+</ol>
+
+<div class="warn">
+<strong>توجه:</strong> تصاویر امضای درون‌خطی (CID images) حفظ می‌شوند. فقط فایل‌های واقعی (Attachment) حذف می‌شوند.
+</div>
+
+<!-- SECTION 7 -->
+<h2 id="search">۷. جست‌وجوی پیشرفته (Advanced Search)</h2>
+<div class="card">
+<p>پنجرهٔ جست‌وجوی اختصاصی که در همه صندوق‌ها و آرشیوهای متصل جست‌وجو می‌کند.</p>
+</div>
+
+<h3>فیلترهای قابل استفاده:</h3>
+<table>
+<tr><th>فیلتر</th><th>توضیح</th><th>مثال</th></tr>
+<tr><td>From</td><td>نام یا ایمیل فرستنده</td><td>ali, ali@company.com</td></tr>
+<tr><td>To</td><td>نام یا ایمیل گیرنده</td><td>reza</td></tr>
+<tr><td>Subject</td><td>کلمات موجود در موضوع</td><td>گزارش, report</td></tr>
+<tr><td>Body</td><td>کلمات موجود در متن پیام</td><td>قرارداد, contract</td></tr>
+<tr><td>Date from/to</td><td>بازهٔ زمانی</td><td>از ۱۴۰۴/۰۱/۰۱ تا ۱۴۰۴/۰۴/۰۱</td></tr>
+<tr><td>Has attachment</td><td>فقط ایمیل‌های دارای پیوست</td><td>تیک بزنید</td></tr>
+</table>
+
+<h3>مراحل استفاده:</h3>
+<ol>
+<li>از زبانهٔ Home یا OutlookTools روی <strong>Advanced Search</strong> کلیک کنید</li>
+<li>فیلترهای مورد نظر را پر کنید (لازم نیست همه را پر کنید)</li>
+<li>روی <strong>🔍 Search</strong> کلیک کنید</li>
+<li>نتایج در لیست سمت چپ نمایش داده می‌شوند</li>
+<li>روی هر نتیجه کلیک کنید تا پیش‌نمایش در سمت راست نشان داده شود</li>
+<li>برای باز کردن ایمیل، روی نتیجه <strong>دوبار کلیک</strong> کنید</li>
+</ol>
+
+<div class="info">
+<strong>محدودیت:</strong> حداکثر ۵۰۰ نتیجه نمایش داده می‌شود تا عملکرد اوت‌لوک حفظ شود.
+</div>
+
+<!-- SECTION 8 -->
+<h2 id="archive">۸. بایگانی هوشمند (Smart Archive)</h2>
+<div class="card">
+<p>صندوق پستی شما را با انتقال ایمیل‌های قدیمی به آرشیوهای فصلی محلی سبک نگه می‌دارد.</p>
+</div>
+
+<h3>ساختار آرشیو:</h3>
+<table>
+<tr><th>آرشیو</th><th>دوره</th><th>مثال</th></tr>
+<tr><td>Season1</td><td>ژانویه – مارس</td><td><code>2026-Season1.pst</code></td></tr>
+<tr><td>Season2</td><td>آوریل – ژوئن</td><td><code>2026-Season2.pst</code></td></tr>
+<tr><td>Season3</td><td>ژوئیه – سپتامبر</td><td><code>2026-Season3.pst</code></td></tr>
+<tr><td>Season4</td><td>اکتبر – دسامبر</td><td><code>2026-Season4.pst</code></td></tr>
+</table>
+
+<h3>قوانین بایگانی:</h3>
+<ul>
+<li>✅ ایمیل‌ها فقط <strong>جابه‌جا</strong> می‌شوند، <strong>حذف نمی‌شوند</strong></li>
+<li>✅ پوشه‌های محافظت‌شده دست‌نخورده می‌مانند: Calendar, Contacts, Tasks, Notes, Drafts, Outbox, Deleted Items, Conversation History</li>
+<li>✅ ایمیل‌های پرچم‌دار (flagged) بایگانی نمی‌شوند</li>
+<li>✅ ایمیل‌های دارای دسته‌بندی (categorized) بایگانی نمی‌شوند</li>
+<li>✅ آرشیوها در اوت‌لوک متصل می‌مانند و قابل جست‌وجو هستند</li>
+</ul>
+
+<h3> نحوه اجرا:</h3>
+<ul>
+<li><strong>خودکار:</strong> روزی یک‌بار (ساعت قابل تنظیم در Settings)</li>
+<li><strong>دستی:</strong> از زبانهٔ OutlookTools → Smart Archive</li>
+</ul>
+
+<div class="tip">
+<strong>تنظیم سن بایگانی:</strong> در Settings → Archive Settings → Archive messages older than (days) می‌توانید تعیین کنید ایمیل‌های قدیمی‌تر از چند روز بایگانی شوند. پیش‌فرض: ۹۰ روز.
+</div>
+
+<!-- SECTION 9 -->
+<h2 id="reminder">۹. پاک‌سازی یادآورها (Reminder Cleanup)</h2>
+<div class="card">
+<p>یادآورهای دیرشدهٔ جلسات تمام‌شده را بی‌سروصدا رد (Dismiss) می‌کند تا هر صبح روی هم تلنبار نشوند.</p>
+</div>
+
+<h3>مراحل استفاده:</h3>
+<ol>
+<li>از زبانهٔ OutlookTools روی <strong>Reminder Cleanup</strong> کلیک کنید</li>
+<li>یادآورهای جلساتی که تمام شده‌اند به صورت خودکار رد می‌شوند</li>
+<li>تعداد یادآورهای رد شده در نوار وضعیت نمایش داده می‌شود</li>
+</ol>
+
+<h3>رفتار خودکار:</h3>
+<ul>
+<li>هر ۳۰ دقیقه یادآورها بررسی می‌شوند</li>
+<li>فقط یادآورهایی که جلسهٔ آنها > ۵ دقیقه تمام شده رد می‌شوند</li>
+<li>Taskهای سررسید گذشته نیز رد می‌شوند</li>
+</ul>
+
+<!-- SECTION 10 -->
+<h2 id="templates">۱۰. قالب‌های ایمیل (Email Templates)</h2>
+<div class="card">
+<p>ایمیل‌های تکراری را به صورت قالب ذخیره کنید و هر بار فقط محتوا را تغییر دهید.</p>
+</div>
+
+<h3>مراحل استفاده:</h3>
+<ol>
+<li>از زبانهٔ OutlookTools روی <strong>Email Templates</strong> کلیک کنید</li>
+<li>برای ایجاد قالب جدید: روی <strong>➕ New</strong> کلیک کنید</li>
+<li>نام قالب، دسته‌بندی و متن HTML را وارد کنید</li>
+<li>روی <strong>💾 Save Template</strong> کلیک کنید</li>
+<li>برای استفاده: قالب را انتخاب و <strong>📥 Insert into Message</strong> را بزنید</li>
+</ol>
+
+<h3>Placeholders خودکار:</h3>
+<table>
+<tr><th>Placeholder</th><th>جایگزین می‌شود با</th><th>مثال</th></tr>
+<tr><td><code>{DATE}</code></td><td>تاریخ امروز</td><td>2026-07-16</td></tr>
+<tr><td><code>{TIME}</code></td><td>ساعت فعلی</td><td>14:30</td></tr>
+<tr><td><code>{DATETIME}</code></td><td>تاریخ و ساعت</td><td>2026-07-16 14:30</td></tr>
+<tr><td><code>{YEAR}</code></td><td>سال جاری</td><td>2026</td></tr>
+<tr><td><code>{MONTH}</code></td><td>نام ماه</td><td>July</td></tr>
+</table>
+
+<div class="info">
+<strong>مثال:</strong> اگر متن قالب شامل <code>Hello {DATE}</code> باشد، هنگام درج تبدیل می‌شود به <code>Hello 2026-07-16</code>.
+</div>
+
+<h3>محل ذخیره قالب‌ها:</h3>
+<p><code>%LOCALAPPDATA%\OutlookTools\Templates\</code></p>
+<p>فایل‌ها با پسوند <code>.template</code> ذخیره می‌شوند و با هر ویرایشگر متنی قابل ویرایش هستند.</p>
+
+<!-- SECTION 11 -->
+<h2 id="bulk">۱۱. عملیات گروهی (Bulk Actions)</h2>
+<div class="card">
+<p>چند ایمیل را انتخاب کنید و عملیات مورد نظر را روی همهٔ آنها به صورت همزمان اجرا کنید.</p>
+</div>
+
+<h3>مراحل استفاده:</h3>
+<ol>
+<li>در اوت‌لوک چند ایمیل را انتخاب کنید (با <code>Ctrl+Click</code> یا <code>Shift+Click</code>)</li>
+<li>از زبانهٔ OutlookTools روی <strong>Bulk Actions</strong> کلیک کنید</li>
+<li>عملیات مورد نظر را از منوی ظاهر شده انتخاب کنید</li>
+</ol>
+
+<h3>عملیات‌های موجود:</h3>
+<table>
+<tr><th>عملیات</th><th>توضیح</th><th>تأیید</th></tr>
+<tr><td>📥 Move to Folder</td><td>انتقال همهٔ ایمیل‌های انتخاب شده به پوشهٔ مقصد</td><td>انتخاب پوشه</td></tr>
+<tr><td>🗑️ Delete Selected</td><td>حذف گروهی ایمیل‌ها</td><td>⚠️ تأیید حذف</td></tr>
+<tr><td>🚩 Flag Selected</td><td>پرچم زدن برای پیگیری</td><td>ندارد</td></tr>
+<tr><td>⬜ Unflag Selected</td><td>حذف پرچم</td><td>ندارد</td></tr>
+<tr><td>✅ Mark as Read</td><td>علامت خوانده شده</td><td>ندارد</td></tr>
+<tr><td>📩 Mark as Unread</td><td>علامت خوانده نشده</td><td>ندارد</td></tr>
+<tr><td>🏷️ Add Category</td><td>افزودن دسته‌بندی</td><td>ورود نام</td></tr>
+<tr><td>📤 Export to CSV</td><td>خروجی اطلاعات به فایل اکسل</td><td>انتخاب مسیر ذخیره</td></tr>
+</table>
+
+<h3>خروجی CSV:</h3>
+<p>فایل CSV شامل ستون‌های زیر است:</p>
+<code>Date, From, To, Subject, HasAttachment, Size, Category</code>
+
+<!-- SECTION 12 -->
+<h2 id="stats">۱۲. آمار ایمیل (Email Statistics)</h2>
+<div class="card">
+<p>الگوهای ایمیل شما را تحلیل می‌کند و گزارش‌های مفید تولید می‌کند.</p>
+</div>
+
+<h3>نحوه استفاده:</h3>
+<ol>
+<li>از زبانهٔ OutlookTools روی <strong>Email Statistics</strong> کلیک کنید</li>
+<li>بازهٔ زمانی مورد نظر را انتخاب کنید (پیش‌فرض: ۳۰ روز اخیر)</li>
+<li>روی <strong>📊 Analyze</strong> کلیک کنید</li>
+<li>نتایج در ۴ تب نمایش داده می‌شود</li>
+</ol>
+
+<h3>تب‌های نتایج:</h3>
+<table>
+<tr><th>تب</th><th>اطلاعات</th><th>کاربرد</th></tr>
+<tr><td>📧 Top Senders</td><td>۲۰ فرستندهٔ برتر + درصد</td><td>شناسایی ایمیل‌های پرتکرار</td></tr>
+<tr><td>⏰ By Hour</td><td>نمودار ساعتی (۰۰–۲۳)</td><td>بهترین زمان پاسخگویی</td></tr>
+<tr><td>🏷️ By Category</td><td>شکست بر اساس دسته‌بندی</td><td>تحلیل موضوعات</td></tr>
+<tr><td>📦 By Size</td><td>توزیع اندازهٔ پیام‌ها</td><td>شناسایی پیام‌های سنگین</td></tr>
+</table>
+
+<h3>خروجی CSV:</h3>
+<p>روی <strong>📥 Export CSV</strong> کلیک کنید تا تمام آمار به فایل اکسل خروجی گرفته شود.</p>
+
+<div class="info">
+<strong>ساعت‌های کاری:</strong> در نمودار ساعتی، ساعت‌های ۹ تا ۱۷ با رنگ سبز مشخص شده‌اند.
+</div>
+
+<!-- SECTION 13 -->
+<h2 id="settings">۱۳. تنظیمات (Settings)</h2>
+
+<h3>دسترسی:</h3>
+<p>از زبانهٔ OutlookTools → Settings</p>
+
+<h3>تنظیمات موجود:</h3>
+<table>
+<tr><th>تنظیم</th><th>توضیح</th><th>مقدار پیش‌فرض</th></tr>
+<tr><td>Archive age threshold</td><td>ایمیل‌های قدیمی‌تر از X روز بایگانی شوند</td><td>۹۰ روز</td></tr>
+<tr><td>Auto-archive</td><td>بایگانی خودکار روزانه فعال باشد</td><td>فعال</td></tr>
+<tr><td>Archive hour</td><td>ساعت اجرای بایگانی خودکار</td><td>۰۶:۰۰</td></tr>
+<tr><td>Auto reminder cleanup</td><td>پاک‌سازی خودکار یادآورها</td><td>فعال</td></tr>
+<tr><td>Debug log</td><td>فعال‌سازی لاگ محلی</td><td>غیرفعال</td></tr>
+<tr><td>Startup notification</td><td>نمایش اعلان هنگام شروع اوت‌لوک</td><td>غیرفعال</td></tr>
+</table>
+
+<h3>محل ذخیره تنظیمات:</h3>
+<p><code>%LOCALAPPDATA%\OutlookTools\settings.json</code></p>
+
+<!-- SECTION 14 -->
+<h2 id="security">۱۴. امنیت و حریم خصوصی</h2>
+
+<div class="card">
+<h3>✅ امنیت OutlookTools</h3>
+<ul>
+<li>🔒 <strong>کد باز:</strong> تمام کد در GitHub قابل بررسی است</li>
+<li>🔒 <strong>صفر ارتباط شبکه:</strong> هیچ داده‌ای آپلود نمی‌شود</li>
+<li>🔒 <strong>بدون تلمتری:</strong> هیچ اطلاعاتی جمع‌آوری نمی‌شود</li>
+<li>🔒 <strong>بدون Admin:</strong> نصب فقط در سطح کاربر</li>
+<li>🔒 <strong>بدون وابستگی:</strong> فقط .NET Framework استاندارد</li>
+<li>🔒 <strong>ذخیره‌سازی محلی:</strong> تنظیمات و قالب‌ها فقط در AppData کاربر</li>
+</ul>
+</div>
+
+<h3>چگونه امنیت را تأیید کنیم:</h3>
+<ol>
+<li>کد منبع را بخوانید — جست‌جو کنید: <code>HttpClient</code>, <code>WebClient</code>, <code>Upload</code>, <code>POST</code> — هیچکدام وجود ندارند</li>
+<li>فایل DLL خروجی را با VirusTotal اسکن کنید</li>
+<li>با Process Monitor فعالیت شبکه‌ای را رصد کنید</li>
+<li>محل ذخیره فایل‌ها را بررسی کنید — فقط %LOCALAPPDATA%\OutlookTools</li>
+</ol>
+
+<div class="warn">
+<strong>تنها استثناء:</strong> هیچ! OutlookTools هیچ ارتباط شبکه‌ای ندارد. حتی به‌روزرسانی خودکار ندارد.
+</div>
+
+<!-- SECTION 15 -->
+<h2 id="faq">۱۵. پرسش‌های متداول</h2>
+
+<div class="card">
+<p><strong>آیا ایمیل‌هایم آپلود می‌شوند؟</strong><br>
+خیر. تمام پردازش‌ها روی کامپیوتر شما انجام می‌شود. هیچ داده‌ای از سیستم خارج نمی‌شود.</p>
+
+<p><strong>آیا به Admin Rights نیاز دارم؟</strong><br>
+خیر. افزونه فقط در سطح کاربر شما نصب می‌شود.</p>
+
+<p><strong>آیا بایگانی ایمیل‌ها را حذف می‌کند؟</strong><br>
+خیر. فقط جابه‌جا می‌کند. پوشه‌های محافظت‌شده دست‌نخورده می‌مانند.</p>
+
+<p><strong>آیا ایمیل‌های بایگانی شده قابل جست‌وجو هستند؟</strong><br>
+بله. آرشیوهای فصلی در اوت‌لوک متصل می‌مانند و از Advanced Search قابل جست‌وجو هستند.</p>
+
+<p><strong>آیا اوت‌لوک را کند می‌کند؟</strong><br>
+خیر. عملیات در گام‌های کوچک اجرا می‌شوند و Outlook قابل استفاده می‌ماند.</p>
+
+<p><strong>آیا از اوت‌لوک 2016 پشتیبانی می‌کند؟</strong><br>
+بله. از Outlook 2016 به بعد پشتیبانی می‌شود.</p>
+
+<p><strong>چگونه افزونه را حذف کنم؟</strong><br>
+از Settings → Apps → OutlookTools → Uninstall یا فایل VSTO را دوباره اجرا کنید.</p>
+
+<p><strong>آیا به‌روزرسانی خودکار دارد؟</strong><br>
+خیر. چون Open-Source است، به‌روزرسانی دستی انجام می‌شود.</p>
+</div>
+
+<!-- SECTION 16 -->
+<h2 id="shortcuts">۱۶. میانبرهای مفید</h2>
+<table>
+<tr><th>میانبر</th><th>عملکرد</th></tr>
+<tr><td><code>Ctrl+Shift+B</code></td><td>Build پروژه (در Visual Studio)</td></tr>
+<tr><td><code>Ctrl+N</code></td><td>پیام جدید</td></tr>
+<tr><td><code>Ctrl+R</code></td><td>پاسخ به پیام</td></tr>
+<tr><td><code>Ctrl+Shift+R</code></td><td>پاسخ به همه</td></tr>
+<tr><td><code>Ctrl+F</code></td><td>جست‌وجوی سریع اوت‌لوک</td></tr>
+<tr><td><code>Ctrl+Click</code></td><td>انتخاب چند ایمیل</td></tr>
+<tr><td><code>Shift+Click</code></td><td>انتخاب بازهٔ ایمیل‌ها</td></tr>
+<tr><td><code>Space</code></td><td>باز کردن پیام انتخاب شده</td></tr>
+<tr><td><code>Delete</code></td><td>حذف پیام انتخاب شده</td></tr>
+</table>
+
+<!-- SECTION 17 -->
+<h2 id="changelog">۱۷. تغییرات نسخه‌ها</h2>
+
+<h3>v1.1.0 — ۱۶ ژوئیه ۲۰۲۶</h3>
+<ul>
+<li>✅ اضافه شدن Email Templates — ذخیره و درج قالب‌های ایمیل</li>
+<li>✅ اضافه شدن Bulk Actions — عملیات گروهی روی ایمیل‌ها</li>
+<li>✅ اضافه شدن Email Statistics — آمار و تحلیل ایمیل‌ها</li>
+<li>✅ آپدیت Ribbon.xml — گروه Productivity جدید</li>
+</ul>
+
+<h3>v1.0.0 — ۱۵ ژوئیه ۲۰۲۶</h3>
+<ul>
+<li>✅ Reply with Attachments</li>
+<li>✅ Reply All with Attachments</li>
+<li>✅ Forward without Attachments</li>
+<li>✅ Advanced Search</li>
+<li>✅ Smart Archive (Seasonal)</li>
+<li>✅ Reminder Cleanup</li>
+<li>✅ Settings Manager</li>
+</ul>
+
+<footer>
+<p><strong>OutlookTools</strong> — Open-Source Outlook Add-in</p>
+<p>مجوز: MIT License — آزاد برای استفاده، تغییر و توزیع</p>
+<p>GitHub: <a href="https://github.com/YourUsername/OutlookTools">OutlookTools Repository</a></p>
+</footer>
+
+</div>
+</body>
+</html>
