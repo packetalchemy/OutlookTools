@@ -55,7 +55,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);border-top:1px solid va
 <div class="hero">
 <h1>📘 OutlookTools</h1>
 <p class="sub">مستندات کامل استفاده از افزونه Open-Source اوت‌لوک</p>
-<span class="version">v1.1.0 — MIT License</span>
+<span class="version">v1.2.0 — MIT License — 13 Features</span>
 </div>
 
 <div class="container">
@@ -76,6 +76,10 @@ footer{text-align:center;padding:2rem;color:var(--muted);border-top:1px solid va
 <li><a href="#templates">۱۰. قالب‌های ایمیل</a></li>
 <li><a href="#bulk">۱۱. عملیات گروهی</a></li>
 <li><a href="#stats">۱۲. آمار ایمیل</a></li>
+<li><a href="#followup">۱۳.۵. پیگیری پاسخ‌ها ⭐</a></li>
+<li><a href="#snooze">۱۳.۶. ایمیل Snooze ⭐</a></li>
+<li><a href="#digest">۱۳.۷. خلاصه روزانه ⭐</a></li>
+<li><a href="#notes">۱۳.۸. یادداشت سریع ⭐</a></li>
 <li><a href="#settings">۱۳. تنظیمات</a></li>
 <li><a href="#security">۱۴. امنیت و حریم خصوصی</a></li>
 <li><a href="#faq">۱۵. پرسش‌های متداول</a></li>
@@ -131,6 +135,26 @@ footer{text-align:center;padding:2rem;color:var(--muted);border-top:1px solid va
 <div class="icon">📊</div>
 <h4>آمار ایمیل</h4>
 <p>تحلیل فرستنده‌ها، ساعت‌ها، دسته‌ها و اندازه‌ها</p>
+</div>
+<div class="feature-card" style="border:2px solid var(--accent2);">
+<div class="icon">🔔</div>
+<h4>پیگیری پاسخ‌ها ⭐</h4>
+<p>خودکار ایمیل‌های ارسال شده را ردیابی کنید</p>
+</div>
+<div class="feature-card" style="border:2px solid var(--accent2);">
+<div class="icon">😴</div>
+<h4>Snooze Email ⭐</h4>
+<p>ایمیل‌ها را موقتاً مخفی و بعداً نمایش دهید</p>
+</div>
+<div class="feature-card" style="border:2px solid var(--accent2);">
+<div class="icon">📋</div>
+<h4>خلاصه روزانه ⭐</h4>
+<p>morning digest از ایمیل‌های مهم</p>
+</div>
+<div class="feature-card" style="border:2px solid var(--accent2);">
+<div class="icon">📝</div>
+<h4>یادداشت سریع ⭐</h4>
+<p>یادداشت‌برداری سریع بدون ترک اوت‌لوک</p>
 </div>
 </div>
 
@@ -445,6 +469,83 @@ footer{text-align:center;padding:2rem;color:var(--muted);border-top:1px solid va
 
 <h3>محل ذخیره تنظیمات:</h3>
 <p><code>%LOCALAPPDATA%\OutlookTools\settings.json</code></p>
+
+<!-- NEW SECTION: Follow-up Tracker -->
+<h2 id="followup">۱۳.۵. پیگیری پاسخ‌ها (Follow-up Tracker) <span class="badge b-purple">جدید</span></h2>
+<div class="card">
+<p>ایمیل‌های ارسال شده را خودکار ردیابی می‌کند و اگر پاسخی دریافت نشد، یادآوری می‌دهد.</p>
+</div>
+<h3>چطور کار می‌کند:</h3>
+<ol>
+<li>هر ایمیلی که ارسال می‌کنید (با دکمه Send) خودکار ردیابی می‌شود</li>
+<li>هر ۳۰ دقیقه Inbox بررسی می‌شود</li>
+<li>اگر پاسخی با همان ConversationID یا Subject پیدا شد → Resolve</li>
+<li>اگر بعد از X روز (پیش‌فرض: ۳ روز) پاسخی نیامد → Overdue</li>
+<li>Dashboard تمام پیگیری‌های باز را نمایش می‌دهد</li>
+</ol>
+<h3>عملیات در Dashboard:</h3>
+<table>
+<tr><th>عمل</th><th>توضیح</th></tr>
+<tr><td>✅ Mark Resolved</td><td>علامت حل شده</td></tr>
+<tr><td>😴 Snooze 1 Day</td><td>یک روز به تعویق بیندازید</td></tr>
+<tr><td>🗑️ Remove</td><td>حذف از لیست پیگیری</td></tr>
+<tr><td>📥 Export CSV</td><td>خروجی اکسل</td></tr>
+</table>
+<div class="tip"><strong>تنظیم:</strong> در Settings → Follow-up days می‌توانید تعیین کنید بعد از چند روز پاسخ نیامدن، Overdue شود. پیش‌فرض: ۳ روز.</div>
+
+<!-- NEW SECTION: Email Snooze -->
+<h2 id="snooze">۱۳.۶. ایمیل Snooze <span class="badge b-purple">جدید</span></h2>
+<div class="card">
+<p>ایمیل‌ها را موقتاً مخفی کنید و در زمان مشخص شده دوباره نمایش دهید.</p>
+</div>
+<h3>گزینه‌های Snooze:</h3>
+<table>
+<tr><th>گزینه</th><th>زمان بازگشت</th></tr>
+<tr><td>1 Hour</td><td>یک ساعت بعد</td></tr>
+<tr><td>Tomorrow 9AM</td><td>فردا ساعت ۹ صبح</td></tr>
+<tr><td>Monday</td><td>دوشنبه ساعت ۹ صبح</td></tr>
+<tr><td>1 Week</td><td>یک هفته بعد</td></tr>
+<tr><td>Custom</td><td>تاریخ و ساعت دلخواه</td></tr>
+</table>
+<h3>چطور کار می‌کند:</h3>
+<ol>
+<li>ایمیل انتخاب شده به پوشه <code>OutlookTools_Snoozed</code> منتقل می‌شود</li>
+<li>هر ۵ دقیقه بررسی می‌شود</li>
+<li>در زمان مشخص شده، ایمیل به Inbox برمی‌گردد</li>
+</ol>
+
+<!-- NEW SECTION: Daily Digest -->
+<h2 id="digest">۱۳.۷. خلاصه روزانه (Daily Digest) <span class="badge b-purple">جدید</span></h2>
+<div class="card">
+<p>هر صبح خلاصه‌ای از ایمیل‌های مهم روز قبل و امروز را نمایش می‌دهد.</p>
+</div>
+<h3>اطلاعات نمایش داده شده:</h3>
+<table>
+<tr><th>آیتم</th><th>توضیح</th></tr>
+<tr><td>📬 New Emails Today</td><td>تعداد ایمیل‌های جدید امروز</td></tr>
+<tr><td>📨 Sent Today</td><td>تعداد ایمیل‌های ارسال شده</td></tr>
+<tr><td>📬 Total Unread</td><td>تعداد خوانده نشده‌ها</td></tr>
+<tr><td>🚩 Flagged</td><td>تعداد پرچم‌دارها</td></tr>
+<tr><td>⏳ Pending Follow-ups</td><td>پیگیری‌های در انتظار</td></tr>
+<tr><td>🔴 Overdue Follow-ups</td><td>پیگیری‌های دیرشده (هشدار قرمز)</td></tr>
+<tr><td>Top Senders</td><td>۵ فرستنده برتر امروز</td></tr>
+</table>
+<div class="tip"><strong>ارسال به صورت ایمیل:</strong> روی دکمه 📧 Send as Email کلیک کنید تا خلاصه به صورت ایمیل HTML ارسال شود.</div>
+
+<!-- NEW SECTION: Quick Notes -->
+<h2 id="notes">۱۳.۸. یادداشت سریع (Quick Notes) <span class="badge b-purple">جدید</span></h2>
+<div class="card">
+<p>یادداشت‌برداری سریع و ساده بدون ترک اوت‌لوک.</p>
+</div>
+<h3>ویژگی‌ها:</h3>
+<ul>
+<li>✅ ایجاد، ویرایش، حذف یادداشت</li>
+<li>✅ برچسب ایمیل مرتبط (Email Tag)</li>
+<li>✅ جست‌وجو در تمام یادداشت‌ها</li>
+<li>✅ ذخیره JSON محلی</li>
+</ul>
+<h3>محل ذخیره:</h3>
+<p><code>%LOCALAPPDATA%\OutlookTools\notes.json</code></p>
 
 <!-- SECTION 14 -->
 <h2 id="security">۱۴. امنیت و حریم خصوصی</h2>
