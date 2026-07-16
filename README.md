@@ -198,4 +198,16 @@ Built as an open-source alternative so users can verify the code themselves.
 
 ---
 
+## Acknowledgments
+
+This project was inspired by [**EmailTools**](https://github.com/ParhamGhafouri/EmailTools) by **Parham Ghafouri** ([LinkedIn](https://www.linkedin.com/in/parhaam/)).
+
+EmailTools is a polished Outlook add-in for indexed body search, Smart Archive, bulk mail actions, and attachment workflows. We studied its features and architecture, then rebuilt the concept as an **open-source** project so users can audit the code themselves.
+
+**OutlookTools is NOT a fork of EmailTools.** It is an independent, clean-room implementation written from scratch in C#. EmailTools is closed-source; OutlookTools is fully open-source under the MIT License.
+
+> If you like EmailTools, consider supporting Parham's work as well.
+
+---
+
 **Built with ❤️ by the community, for the community.**
