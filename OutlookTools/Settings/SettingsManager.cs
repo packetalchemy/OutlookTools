@@ -22,6 +22,7 @@ namespace OutlookTools.Settings
         // Default values
         private static int _archiveAgeDays = 90;
         private static int _archiveHour = 6;
+        private static int _followUpDays = 3;
         private static bool _autoArchiveEnabled = true;
         private static bool _autoReminderEnabled = true;
         private static bool _debugLogEnabled = false;
@@ -36,6 +37,7 @@ namespace OutlookTools.Settings
 
         public static int GetArchiveAgeDays() => _archiveAgeDays;
         public static int GetArchiveHour() => _archiveHour;
+        public static int GetFollowUpDays() => _followUpDays;
         public static bool GetAutoArchiveEnabled() => _autoArchiveEnabled;
         public static bool GetAutoReminderEnabled() => _autoReminderEnabled;
         public static bool GetDebugLogEnabled() => _debugLogEnabled;
@@ -44,6 +46,7 @@ namespace OutlookTools.Settings
 
         public static void SetArchiveAgeDays(int val) { _archiveAgeDays = val; Save(); }
         public static void SetArchiveHour(int val) { _archiveHour = val; Save(); }
+        public static void SetFollowUpDays(int val) { _followUpDays = val; Save(); }
         public static void SetAutoArchiveEnabled(bool val) { _autoArchiveEnabled = val; Save(); }
         public static void SetAutoReminderEnabled(bool val) { _autoReminderEnabled = val; Save(); }
         public static void SetDebugLogEnabled(bool val) { _debugLogEnabled = val; Save(); }
@@ -61,6 +64,7 @@ namespace OutlookTools.Settings
                 // Minimal JSON parser — no external dependencies
                 _archiveAgeDays = GetInt(json, "archiveAgeDays", 90);
                 _archiveHour = GetInt(json, "archiveHour", 6);
+                _followUpDays = GetInt(json, "followUpDays", 3);
                 _autoArchiveEnabled = GetBool(json, "autoArchiveEnabled", true);
                 _autoReminderEnabled = GetBool(json, "autoReminderEnabled", true);
                 _debugLogEnabled = GetBool(json, "debugLogEnabled", false);
@@ -83,6 +87,7 @@ namespace OutlookTools.Settings
                 string json = $@"{{
   ""archiveAgeDays"": {_archiveAgeDays},
   ""archiveHour"": {_archiveHour},
+  ""followUpDays"": {_followUpDays},
   ""autoArchiveEnabled"": {(_autoArchiveEnabled ? "true" : "false")},
   ""autoReminderEnabled"": {(_autoReminderEnabled ? "true" : "false")},
   ""debugLogEnabled"": {(_debugLogEnabled ? "true" : "false")},

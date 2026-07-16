@@ -1,172 +1,144 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Linq;
 using Microsoft.Office.Interop.Outlook;
-using Office = Microsoft.Office.Core;
-using OutlookTools.Commands;
-using OutlookTools.Archive;
 using OutlookTools.Settings;
-using System.Configuration;
 
 namespace OutlookTools
 {
     /// <summary>
-    /// OutlookTools — Open-source Outlook add-in
-    /// Ribbon integration, attachment actions, smart archive, reminder cleanup.
-    /// ALL processing is LOCAL. NO network calls. NO telemetry.
+    /// OutlookTools v1.2.0 — Main add-in entry point.
+    /// Manages timers for: Follow-up check, Snooze restore, Reminder cleanup, Auto-archive.
     /// </summary>
     public partial class ThisAddIn
     {
-        private OutlookToolsRibbon _ribbon;
-
-        /// <summary>
-        /// Auto-cleanup timer for reminders (runs every 30 minutes).
-        /// </summary>
-        private System.Timers.Timer _reminderCleanupTimer;
-
-        /// <summary>
-        /// Auto-archive timer (runs once per day, configurable).
-        /// </summary>
+        private System.Timers.Timer _followUpTimer;
+        private System.Timers.Timer _snoozeTimer;
+        private System.Timers.Timer _reminderTimer;
         private System.Timers.Timer _archiveTimer;
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             try
             {
-                // Subscribe to folder switch event (for auto-cleanup)
-                Application.ActiveExplorer().FolderSwitch +=
-                    new Outlook.ExplorerEvents_10_FolderSwitchEventHandler(OnFolderSwitch);
+                // Hook into mail send event to auto-track follow-ups
+                Application.ItemSend += OnItemSend;
 
-                // Initialize reminder cleanup timer
-                SetupReminderTimer();
+                // Follow-up check: every 30 minutes
+                _followUpTimer = new System.Timers.Timer { Interval = TimeSpan.FromMinutes(30).TotalMilliseconds, AutoReset = true };
+                _followUpTimer.Elapsed += (s, ev) =>
+                {
+                    try
+                    {
+                        var resolved = FollowUp.FollowUpTracker.CheckForReplies(Application);
+                        if (resolved.Count > 0)
+                            LogDebug($"FollowUp: {resolved.Count} follow-up(s) resolved by replies.");
 
-                // Initialize archive timer
+                        var overdue = FollowUp.FollowUpTracker.GetPending()
+                            .Where(x => x.Status == FollowUp.FollowUpStatus.Overdue).ToList();
+                        if (overdue.Count > 0)
+                            LogDebug($"FollowUp: {overdue.Count} follow-up(s) overdue!");
+                    }
+                    catch (Exception ex) { LogDebug("FollowUp timer: " + ex.Message); }
+                };
+                _followUpTimer.Start();
+
+                // Snooze check: every 5 minutes
+                _snoozeTimer = new System.Timers.Timer { Interval = TimeSpan.FromMinutes(5).TotalMilliseconds, AutoReset = true };
+                _snoozeTimer.Elapsed += (s, ev) =>
+                {
+                    try { Snooze.EmailSnooze.CheckAndRestore(Application); }
+                    catch (Exception ex) { LogDebug("Snooze timer: " + ex.Message); }
+                };
+                _snoozeTimer.Start();
+
+                // Reminder cleanup: every 30 minutes
+                _reminderTimer = new System.Timers.Timer { Interval = TimeSpan.FromMinutes(30).TotalMilliseconds, AutoReset = true };
+                _reminderTimer.Elapsed += (s, ev) =>
+                {
+                    try { Commands.ReminderCleanup.Run(Application); }
+                    catch (Exception ex) { LogDebug("Reminder timer: " + ex.Message); }
+                };
+                _reminderTimer.Start();
+
+                // Auto-archive: daily at configured hour
                 SetupArchiveTimer();
 
-                // Show friendly startup notification (configurable in settings)
-                if (Settings.Default.ShowStartupNotification)
-                {
-                    Application.Session.GetDefaultFolder(OlDefaultFolders.olFolderInbox);
-                }
+                // Daily cleanup of old follow-up records
+                FollowUp.FollowUpTracker.Cleanup();
 
-                LogDebug("OutlookTools started successfully.");
+                LogDebug("OutlookTools v1.2.0 started successfully.");
             }
             catch (Exception ex)
             {
-                // Critical error during startup — show user-friendly message
-                MessageBox.Show(
-                    "OutlookTools encountered an error during startup.\n\n" +
-                    "The add-in will continue to be loaded, but some features may not work.\n\n" +
-                    "Error: " + ex.Message,
-                    "OutlookTools",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                System.Windows.Forms.MessageBox.Show(
+                    "OutlookTools startup error: " + ex.Message,
+                    "OutlookTools", System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Warning);
             }
         }
 
-        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
+        /// <summary>
+        /// Auto-track sent emails for follow-up.
+        /// </summary>
+        private void OnItemSend(object item, ref bool cancel)
         {
             try
             {
-                _reminderCleanupTimer?.Stop();
-                _archiveTimer?.Stop();
-                LogDebug("OutlookTools shut down cleanly.");
+                if (item is MailItem mail)
+                {
+                    FollowUp.FollowUpTracker.TrackSentEmail(mail);
+                }
             }
-            catch { /* ignore shutdown errors */ }
+            catch (Exception ex) { LogDebug("OnItemSend: " + ex.Message); }
         }
 
-        /// <summary>
-        /// Ribbon instance — populated when Outlook loads the Ribbon.
-        /// </summary>
-        protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject()
-        {
-            _ribbon = new OutlookToolsRibbon();
-            return _ribbon;
-        }
-
-        /// <summary>
-        /// Setup the reminder cleanup timer — dismisses past reminders.
-        /// </summary>
-        private void SetupReminderTimer()
-        {
-            _reminderCleanupTimer = new System.Timers.Timer
-            {
-                Interval = TimeSpan.FromMinutes(30).TotalMilliseconds,
-                AutoReset = true
-            };
-            _reminderCleanupTimer.Elapsed += (s, e) =>
-            {
-                try { ReminderCleanup.Run(Application); }
-                catch (Exception ex) { LogDebug("ReminderCleanup error: " + ex.Message); }
-            };
-            _reminderCleanupTimer.Start();
-        }
-
-        /// <summary>
-        /// Setup the archive timer — runs once per day.
-        /// </summary>
         private void SetupArchiveTimer()
         {
-            int hour = Settings.Default.ArchiveHourOfDay;
+            int hour = SettingsManager.GetArchiveHour();
             var nextRun = DateTime.Today.AddHours(hour);
             if (nextRun < DateTime.Now) nextRun = nextRun.AddDays(1);
-            var delay = (nextRun - DateTime.Now).TotalMilliseconds;
-
             _archiveTimer = new System.Timers.Timer
             {
                 Interval = TimeSpan.FromHours(24).TotalMilliseconds,
                 AutoReset = true
             };
-            _archiveTimer.Elapsed += (s, e) =>
+            _archiveTimer.Elapsed += (s, ev) =>
             {
-                try { SmartArchiveEngine.Run(Application); }
-                catch (Exception ex) { LogDebug("Archive error: " + ex.Message); }
+                try { Archive.SmartArchiveEngine.Run(Application); }
+                catch (Exception ex) { LogDebug("Archive: " + ex.Message); }
             };
             _archiveTimer.Start();
-
-            LogDebug($"Auto-archive scheduled for {nextRun}, then every 24 hours.");
         }
 
-        /// <summary>
-        /// Trigger daily cleanup when user opens Outlook in the morning.
-        /// </summary>
-        private void OnFolderSwitch()
+        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
-            // Only run on first folder switch of the day
-            var lastRun = Settings.Default.LastDailyRun;
-            if (lastRun.Date < DateTime.Today)
-            {
-                try
-                {
-                    ReminderCleanup.Run(Application);
-                    Settings.Default.LastDailyRun = DateTime.Today;
-                    Settings.Default.Save();
-                }
-                catch { }
-            }
+            _followUpTimer?.Stop();
+            _snoozeTimer?.Stop();
+            _reminderTimer?.Stop();
+            _archiveTimer?.Stop();
+            LogDebug("OutlookTools v1.2.0 shut down.");
         }
 
-        /// <summary>
-        /// Local debug log. Quiet mode by default. File is per-user only.
-        /// </summary>
+        protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject()
+        {
+            return new OutlookToolsRibbon();
+        }
+
         public static void LogDebug(string message)
         {
             try
             {
-                if (!Settings.Default.EnableDebugLog) return;
-                var dir = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "OutlookTools");
+                if (!SettingsManager.GetDebugLogEnabled()) return;
+                var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OutlookTools");
                 Directory.CreateDirectory(dir);
-                var file = Path.Combine(dir, "outlook-tools.log");
-                File.AppendAllText(file,
+                File.AppendAllText(Path.Combine(dir, "outlook-tools.log"),
                     $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {message}{Environment.NewLine}");
             }
-            catch { /* logging must not throw */ }
+            catch { }
         }
 
-        #region VSTO generated code
+        #region VSTO generated
         private void InternalStartup()
         {
             this.Startup += new System.EventHandler(ThisAddIn_Startup);

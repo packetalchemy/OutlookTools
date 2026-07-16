@@ -1,82 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  OutlookTools v1.1.0 — Custom Ribbon
-  HOME TAB: Reply, Reply All, Forward, Advanced Search
-  OutlookTools TAB: Archive, Reminders, Templates, Bulk Actions, Stats, Settings
+  OutlookTools v1.2.0 — Custom Ribbon
+  HOME TAB: Reply, Reply All, Forward, Search
+  OutlookTools TAB: Search, Archive, Productivity, Smart Tools, Settings
 -->
 <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui"
           onLoad="OnRibbonLoad">
-
   <ribbon>
     <tabs>
-      <!-- HOME TAB INJECTION -->
+      <!-- HOME TAB -->
       <tab idMso="TabHomeMail">
-        <group id="grpHomeAttachmentActions" label="OutlookTools" insertAfterMso="GroupActions">
-          <button id="btnReplyWithAttachment" label="Reply +
+        <group id="grpHomeActions" label="OutlookTools" insertAfterMso="GroupActions">
+          <button id="btnReplyAttach" label="Reply +
 Attachments" imageMso="ReplyWithAttachments" size="normal"
                   onAction="OnReplyWithAttachment"
-                  screentip="Reply keeping all attachments"
-                  supertip="Replies while preserving the original file attachments of the selected message."/>
-          <button id="btnReplyAllWithAttachment" label="Reply All +
+                  screentip="Reply keeping all attachments"/>
+          <button id="btnReplyAllAttach" label="Reply All +
 Attachments" imageMso="ReplyAll" size="normal"
                   onAction="OnReplyAllWithAttachment"
-                  screentip="Reply All keeping all attachments"
-                  supertip="Replies to all recipients while preserving file attachments."/>
-          <button id="btnForwardWithout" label="Forward
+                  screentip="Reply All keeping all attachments"/>
+          <button id="btnFwdNoAttach" label="Forward
 No Attachments" imageMso="Forward" size="normal"
                   onAction="OnForwardWithoutAttachment"
-                  screentip="Forward stripping file attachments"
-                  supertip="Forwards message but strips file attachments. Preserves inline signature images."/>
+                  screentip="Forward stripping file attachments"/>
           <button id="btnHomeSearch" label="Advanced Search" imageMso="Find" size="normal"
-                  onAction="OnAdvancedSearch"
-                  screentip="Open advanced search window"
-                  supertip="Search through mailboxes, archives, with OutlookTools search."/>
+                  onAction="OnAdvancedSearch"/>
         </group>
       </tab>
 
-      <!-- OUTLOOKTOOLS DEDICATED TAB -->
+      <!-- OUTLOOKTOOLS TAB -->
       <tab id="tabOutlookTools" label="OutlookTools">
-
-        <!-- Search group -->
         <group id="grpSearch" label="Search">
-          <button id="btnTabSearch" label="Advanced Search" imageMso="Find" size="large"
-                  onAction="OnAdvancedSearch"
-                  screentip="Open advanced search window"
-                  supertip="Search through mailboxes, archives, message bodies."/>
+          <button id="btnSearch" label="Advanced Search" imageMso="Find" size="large"
+                  onAction="OnAdvancedSearch"/>
         </group>
 
-        <!-- Archive & Cleanup group -->
         <group id="grpArchive" label="Archive & Cleanup">
-          <button id="btnSmartArchive" label="Smart Archive" imageMso="ArchiveFolder" size="large"
-                  onAction="OnRunSmartArchive"
-                  screentip="Move older emails to seasonal archives"
-                  supertip="Moves old messages to seasonal PST archive. Protected folders skipped."/>
-          <button id="btnReminderCleanup" label="Reminder
+          <button id="btnArchive" label="Smart Archive" imageMso="ArchiveFolder" size="large"
+                  onAction="OnRunSmartArchive"/>
+          <button id="btnReminders" label="Reminder
 Cleanup" imageMso="ReminderWindow" size="large"
-                  onAction="OnRunReminderCleanup"
-                  screentip="Dismiss past reminders"
-                  supertip="Silently dismisses reminders for meetings that have passed."/>
+                  onAction="OnRunReminderCleanup"/>
         </group>
 
-        <!-- Productivity group -->
         <group id="grpProductivity" label="Productivity">
           <button id="btnTemplates" label="Email
 Templates" imageMso="InsertPictureFromFile" size="large"
-                  onAction="OnTemplates"
-                  screentip="Email templates manager"
-                  supertip="Create, save, edit, and insert email templates."/>
-          <button id="btnBulkActions" label="Bulk Actions" imageMso="EditMultipleItems" size="large"
-                  onAction="OnBulkActions"
-                  screentip="Bulk operations on selected messages"
-                  supertip="Move, delete, flag, mark, categorize or export selected emails in batch."/>
-          <button id="btnEmailStats" label="Email
+                  onAction="OnTemplates"/>
+          <button id="btnBulk" label="Bulk Actions" imageMso="EditMultipleItems" size="large"
+                  onAction="OnBulkActions"/>
+          <button id="btnStats" label="Email
 Statistics" imageMso="ChartTypeColumnInsertGallery" size="large"
-                  onAction="OnEmailStats"
-                  screentip="Email analytics and statistics"
-                  supertip="View top senders, hourly patterns, category breakdown, size distribution."/>
+                  onAction="OnEmailStats"/>
         </group>
 
-        <!-- Settings group -->
+        <group id="grpSmartTools" label="Smart Tools">
+          <button id="btnFollowUp" label="Follow-up
+Tracker" imageMso="TasksModeByCategory" size="large"
+                  onAction="OnFollowUp"
+                  screentip="Track sent emails awaiting replies"
+                  supertip="Dashboard of pending follow-ups with overdue alerts."/>
+          <button id="btnSnooze" label="Snooze Email" imageMso="Sleep" size="large"
+                  onAction="OnSnooze"
+                  screentip="Temporarily hide emails"
+                  supertip="Hide selected emails and make them reappear later."/>
+          <button id="btnDigest" label="Daily Digest" imageMso="Chart" size="large"
+                  onAction="OnDigest"
+                  screentip="Morning email summary"
+                  supertip="View today's email overview: new, sent, unread, follow-ups."/>
+          <button id="btnNotes" label="Quick Notes" imageMso="NewNote" size="large"
+                  onAction="OnNotes"
+                  screentip="Quick note-taking inside Outlook"
+                  supertip="Create, search, and manage notes without leaving Outlook."/>
+        </group>
+
         <group id="grpSettings" label="Settings">
           <button id="btnSettings" label="Settings" imageMso="Options" size="large"
                   onAction="OnSettings"/>

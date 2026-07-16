@@ -3,7 +3,7 @@
 **Free. Local-first. No tracking. No server. No admin rights required.**
 
 A community-built Outlook add-in that adds the features Outlook is missing:
-attachment workflows, smart archiving, reminder cleanup, and advanced search.
+attachment workflows, smart archiving, templates, bulk actions, follow-up tracking, snooze, daily digest, and more.
 
 > **Why does this exist?**
 > Because closed-source add-ins that access your email are a security risk.
@@ -13,7 +13,7 @@ attachment workflows, smart archiving, reminder cleanup, and advanced search.
 
 ## Features
 
-### 📎 Reply with Attachments
+### 📎 Attachment Actions
 - **Reply with Attachment(s)** — keeps original files in your reply
 - **Reply All with Attachment(s)** — same for all recipients
 - **Forward without Attachment(s)** — strips files but preserves inline signature images
@@ -28,11 +28,48 @@ attachment workflows, smart archiving, reminder cleanup, and advanced search.
 - Never deletes — only moves
 - Skips protected folders (Calendar, Contacts, Tasks, Drafts, Deleted Items, etc.)
 - Configurable age threshold (default: 90 days)
-- Runs daily in background, small batches to keep Outlook responsive
+- Runs daily in background
 
 ### ⏰ Reminder Cleanup
 - Automatically dismisses reminders for past meetings
-- Runs every 30 minutes (configurable)
+- Runs every 30 minutes
+
+### 📧 Email Templates
+- Save, edit, and insert email templates
+- Placeholders: `{DATE}`, `{TIME}`, `{YEAR}`, `{MONTH}`
+- Local storage in `%LOCALAPPDATA%\OutlookTools\Templates\`
+
+### ⚡ Bulk Actions
+- Move, Delete, Flag, Categorize, Mark Read/Unread, Export to CSV
+- Work on multiple selected emails at once
+
+### 📊 Email Statistics
+- Top senders, hourly patterns, category breakdown, size distribution
+- Export stats to CSV
+
+### 🔔 Follow-up Tracker (NEW in v1.2.0)
+- **Auto-tracks** all sent emails for replies
+- Dashboard shows pending/overdue follow-ups
+- Snooze, Resolve, or Remove individual items
+- Checks every 30 minutes for replies
+
+### 😴 Email Snooze (NEW in v1.2.0)
+- Hide emails temporarily and make them reappear later
+- Quick options: 1 hour, tomorrow 9AM, Monday, 1 week
+- Custom date/time picker
+- Checks every 5 minutes for snoozed emails
+
+### 📊 Daily Digest (NEW in v1.2.0)
+- Morning summary: new emails, sent, unread, flagged, follow-ups
+- Top senders of the day
+- Overdue follow-up alerts
+- Can be sent as email
+
+### 📝 Quick Notes (NEW in v1.2.0)
+- Lightweight note-taking inside Outlook
+- Tag notes with email subjects
+- Search across all notes
+- Local JSON storage
 
 ### 🔒 Privacy
 - **100% local** — search, archive, and index run on your PC only
@@ -78,9 +115,6 @@ msbuild OutlookTools.sln /p:Configuration=Debug
 2. Run the generated `OutlookTools.vsto` installer
 3. Start Outlook — the "OutlookTools" tab will appear
 
-### Per-User (Recommended)
-The VSTO installer installs to your user profile only. No admin rights needed.
-
 ---
 
 ## Project Structure
@@ -88,21 +122,41 @@ The VSTO installer installs to your user profile only. No admin rights needed.
 ```
 OutlookTools/
 ├── OutlookTools/
-│   ├── ThisAddIn.cs              — Entry point, timers, ribbon creation
-│   ├── OutlookToolsRibbon.cs     — Ribbon UI callbacks
+│   ├── ThisAddIn.cs                    — Entry point, timers, event hooks
+│   ├── OutlookToolsRibbon.cs           — Ribbon UI callbacks
 │   ├── Commands/
-│   │   ├── AttachmentActions.cs  — Reply/Forward with/without attachments
-│   │   └── ReminderCleanup.cs    — Dismiss past-due reminders
+│   │   ├── AttachmentActions.cs        — Reply/Forward with/without attachments
+│   │   ├── BulkActions.cs              — Move, delete, flag, categorize, export
+│   │   └── ReminderCleanup.cs          — Dismiss past-due reminders
 │   ├── Archive/
-│   │   └── SmartArchiveEngine.cs — Seasonal PST archiving
+│   │   └── SmartArchiveEngine.cs       — Seasonal PST archiving
 │   ├── Search/
-│   │   └── AdvancedSearchForm.cs — Search dialog with preview
+│   │   └── AdvancedSearchForm.cs       — Search dialog with preview
+│   ├── Templates/
+│   │   └── TemplatesForm.cs            — Email template manager
+│   ├── Stats/
+│   │   └── EmailStatsForm.cs           — Email analytics dashboard
+│   ├── FollowUp/
+│   │   ├── FollowUpTracker.cs          — Follow-up tracking logic
+│   │   └── FollowUpDashboardForm.cs    — Follow-up dashboard UI
+│   ├── Snooze/
+│   │   ├── EmailSnooze.cs              — Snooze engine
+│   │   └── SnoozePickerForm.cs         — Custom snooze picker
+│   ├── Digest/
+│   │   ├── DailyDigestGenerator.cs     — Digest generation
+│   │   └── DailyDigestForm.cs          — Digest display UI
+│   ├── Notes/
+│   │   ├── QuickNotesManager.cs        — Notes CRUD
+│   │   └── QuickNotesForm.cs           — Notes UI
 │   ├── Settings/
-│   │   ├── SettingsForm.cs       — Configuration UI
-│   │   └── SettingsManager.cs    — Local JSON settings storage
+│   │   ├── SettingsForm.cs             — Configuration UI
+│   │   └── SettingsManager.cs          — Local JSON settings
 │   └── Resources/
-│       └── Ribbon.xml            — Ribbon UI definition
-└── README.md
+│       └── Ribbon.xml                  — Ribbon UI definition
+├── docs/
+│   └── Documentation.html              — Full user manual
+├── README.md
+└── .gitignore
 ```
 
 ---
@@ -121,17 +175,6 @@ OutlookTools/
 
 ---
 
-## How to Verify This Is Safe
-
-1. **Read the code** — every file is in this repository
-2. **Search for `HttpClient` or `WebClient`** — you won't find any
-3. **Search for `Upload` or `POST`** — none exist
-4. **Check `Process.Start`** — only used to open explorer.exe for log folder
-5. **VirusTotal** — scan the built DLL (should be clean)
-6. **Process Monitor** — monitor network activity while Outlook runs
-
----
-
 ## Settings
 
 Settings are stored in: `%LOCALAPPDATA%\OutlookTools\settings.json`
@@ -140,6 +183,7 @@ Settings are stored in: `%LOCALAPPDATA%\OutlookTools\settings.json`
 {
   "archiveAgeDays": 90,
   "archiveHour": 6,
+  "followUpDays": 3,
   "autoArchiveEnabled": true,
   "autoReminderEnabled": true,
   "debugLogEnabled": false,
@@ -147,54 +191,6 @@ Settings are stored in: `%LOCALAPPDATA%\OutlookTools\settings.json`
   "lastDailyRun": "2026-01-01T00:00:00"
 }
 ```
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-All contributions are welcome. Please ensure your code is clean and well-commented.
-
----
-
-## License
-
-**MIT License** — use it, modify it, distribute it freely.
-
-```
-MIT License
-
-Copyright (c) 2026 OutlookTools Contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
----
-
-## Acknowledgments
-
-Inspired by [EmailTools](https://github.com/ParhamGhafouri/EmailTools) by Parham Ghafouri.
-Built as an open-source alternative so users can verify the code themselves.
 
 ---
 
@@ -207,6 +203,12 @@ EmailTools is a polished Outlook add-in for indexed body search, Smart Archive, 
 **OutlookTools is NOT a fork of EmailTools.** It is an independent, clean-room implementation written from scratch in C#. EmailTools is closed-source; OutlookTools is fully open-source under the MIT License.
 
 > If you like EmailTools, consider supporting Parham's work as well.
+
+---
+
+## License
+
+**MIT License** — use it, modify it, distribute it freely.
 
 ---
 
