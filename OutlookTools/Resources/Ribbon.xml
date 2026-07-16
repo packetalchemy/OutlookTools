@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  OutlookTools v1.1.0 — Custom Ribbon
+  HOME TAB: Reply, Reply All, Forward, Advanced Search
+  OutlookTools TAB: Archive, Reminders, Templates, Bulk Actions, Stats, Settings
+-->
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui"
+          onLoad="OnRibbonLoad">
+
+  <ribbon>
+    <tabs>
+      <!-- HOME TAB INJECTION -->
+      <tab idMso="TabHomeMail">
+        <group id="grpHomeAttachmentActions" label="OutlookTools" insertAfterMso="GroupActions">
+          <button id="btnReplyWithAttachment" label="Reply +
+Attachments" imageMso="ReplyWithAttachments" size="normal"
+                  onAction="OnReplyWithAttachment"
+                  screentip="Reply keeping all attachments"
+                  supertip="Replies while preserving the original file attachments of the selected message."/>
+          <button id="btnReplyAllWithAttachment" label="Reply All +
+Attachments" imageMso="ReplyAll" size="normal"
+                  onAction="OnReplyAllWithAttachment"
+                  screentip="Reply All keeping all attachments"
+                  supertip="Replies to all recipients while preserving file attachments."/>
+          <button id="btnForwardWithout" label="Forward
+No Attachments" imageMso="Forward" size="normal"
+                  onAction="OnForwardWithoutAttachment"
+                  screentip="Forward stripping file attachments"
+                  supertip="Forwards message but strips file attachments. Preserves inline signature images."/>
+          <button id="btnHomeSearch" label="Advanced Search" imageMso="Find" size="normal"
+                  onAction="OnAdvancedSearch"
+                  screentip="Open advanced search window"
+                  supertip="Search through mailboxes, archives, with OutlookTools search."/>
+        </group>
+      </tab>
+
+      <!-- OUTLOOKTOOLS DEDICATED TAB -->
+      <tab id="tabOutlookTools" label="OutlookTools">
+
+        <!-- Search group -->
+        <group id="grpSearch" label="Search">
+          <button id="btnTabSearch" label="Advanced Search" imageMso="Find" size="large"
+                  onAction="OnAdvancedSearch"
+                  screentip="Open advanced search window"
+                  supertip="Search through mailboxes, archives, message bodies."/>
+        </group>
+
+        <!-- Archive & Cleanup group -->
+        <group id="grpArchive" label="Archive & Cleanup">
+          <button id="btnSmartArchive" label="Smart Archive" imageMso="ArchiveFolder" size="large"
+                  onAction="OnRunSmartArchive"
+                  screentip="Move older emails to seasonal archives"
+                  supertip="Moves old messages to seasonal PST archive. Protected folders skipped."/>
+          <button id="btnReminderCleanup" label="Reminder
+Cleanup" imageMso="ReminderWindow" size="large"
+                  onAction="OnRunReminderCleanup"
+                  screentip="Dismiss past reminders"
+                  supertip="Silently dismisses reminders for meetings that have passed."/>
+        </group>
+
+        <!-- Productivity group -->
+        <group id="grpProductivity" label="Productivity">
+          <button id="btnTemplates" label="Email
+Templates" imageMso="InsertPictureFromFile" size="large"
+                  onAction="OnTemplates"
+                  screentip="Email templates manager"
+                  supertip="Create, save, edit, and insert email templates."/>
+          <button id="btnBulkActions" label="Bulk Actions" imageMso="EditMultipleItems" size="large"
+                  onAction="OnBulkActions"
+                  screentip="Bulk operations on selected messages"
+                  supertip="Move, delete, flag, mark, categorize or export selected emails in batch."/>
+          <button id="btnEmailStats" label="Email
+Statistics" imageMso="ChartTypeColumnInsertGallery" size="large"
+                  onAction="OnEmailStats"
+                  screentip="Email analytics and statistics"
+                  supertip="View top senders, hourly patterns, category breakdown, size distribution."/>
+        </group>
+
+        <!-- Settings group -->
+        <group id="grpSettings" label="Settings">
+          <button id="btnSettings" label="Settings" imageMso="Options" size="large"
+                  onAction="OnSettings"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>

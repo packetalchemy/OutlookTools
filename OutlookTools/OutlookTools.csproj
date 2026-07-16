@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Library</OutputType>
+    <RootNamespace>OutlookTools</RootNamespace>
+    <AssemblyName>OutlookTools</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <VSTOLoadBehavior>1</VSTOLoadBehavior>
+    <Level>FullTrust</Level>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <ProductName>OutlookTools</ProductName>
+    <PublisherName>Open Source</PublisherName>
+    <SupportUrl>https://github.com/YourUsername/OutlookTools</SupportUrl>
+    <FriendlyName>OutlookTools</FriendlyName>
+    <Description>Open-source Outlook add-in for attachment actions, reminders cleanup, and smart archiving</Description>
+    <OfficeApplicationDesc>Microsoft Outlook</OfficeApplicationDesc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.Office.Interop.Outlook">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="OutlookTools2016Template.vsto" />
+  </ItemGroup>
+</Project>
