@@ -124,10 +124,9 @@ namespace OutlookTools.Archive
         /// Get or create the seasonal archive folder for the current period.
         /// Format: "2026-Season1" → "2026-Season2" etc.
         /// </summary>
-        private static Outlook.Folder EnsureSeasonalArchive(Outlook.Application app)
+        private static Outlook.Folder EnsureSeasonalArchive(Outlook.NameSpace session)
         {
             string seasonName = GetCurrentSeasonName();
-            Outlook.NameSpace session = app.Session;
 
             // Check if the archive store already exists
             Outlook.Stores stores = session.Stores;
