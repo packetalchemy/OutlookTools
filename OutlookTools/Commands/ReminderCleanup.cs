@@ -6,7 +6,7 @@ namespace OutlookTools.Commands
     /// <summary>
     /// OutlookTools — Reminder Cleanup
     /// Dismisses overdue reminders (past meetings, past tasks).
-    /// Safe: only dismisses items where the due date has passed.
+    /// Uses Calendar folder approach when Reminders collection is unavailable.
     /// </summary>
     public static class ReminderCleanup
     {
@@ -17,49 +17,44 @@ namespace OutlookTools.Commands
         {
             try
             {
-                var reminders = app.Session.Reminders;
+                if (app == null) return;
+
+                // Try to dismiss overdue items via Calendar folder
+                Outlook.Folder calendar = app.Session.GetDefaultFolder(
+                    Outlook.OlDefaultFolders.olFolderCalendar) as Outlook.Folder;
+                if (calendar == null) return;
+
                 int dismissed = 0;
+                Outlook.Items items = calendar.Items;
+                items.IncludeRecurrences = true;
+                items.Sort("[Start]");
 
-                for (int i = reminders.Count; i >= 1; i--)
+                var restriction = "[Start] >= '" + DateTime.Now.AddDays(-1).ToString("g") +
+                    "' AND [Start] <= '" + DateTime.Now.ToString("g") + "'";
+                Outlook.Items restricted = items.Restrict(restriction);
+
+                foreach (object obj in restricted)
                 {
-                    Outlook.Reminder reminder = reminders[i];
-                    Outlook.AppointmentItem appointment = null;
-                    Outlook.TaskItem task = null;
-
+                    if (!(obj is Outlook.AppointmentItem apt)) continue;
                     try
                     {
-                        if (reminder.Item is Outlook.AppointmentItem ai)
+                        // Dismiss reminders for past appointments
+                        if (apt.End.AddMinutes(5) < DateTime.Now && apt.ReminderSet)
                         {
-                            appointment = ai;
-                            // Only dismiss if the meeting ended > 5 minutes ago
-                            if (ai.End.AddMinutes(5) < DateTime.Now)
-                            {
-                                reminder.Dismiss();
-                                dismissed++;
-                            }
-                        }
-                        else if (reminder.Item is Outlook.TaskItem ti)
-                        {
-                            task = ti;
-                            // Dismiss completed or overdue tasks
-                            if (ti.DueDate.Date < DateTime.Today && ti.DueDate != DateTime.MinValue)
-                            {
-                                reminder.Dismiss();
-                                dismissed++;
-                            }
+                            apt.ReminderSet = false;
+                            apt.Save();
+                            dismissed++;
                         }
                     }
-                    catch { /* skip individual failures */ }
+                    catch { }
                     finally
                     {
-                        if (appointment != null) ReleaseCom(appointment);
-                        if (task != null) ReleaseCom(task);
-                        if (reminder != null) ReleaseCom(reminder);
+                        if (apt != null) ReleaseCom(apt);
                     }
                 }
 
                 if (dismissed > 0)
-                    ThisAddIn.LogDebug($"ReminderCleanup: dismissed {dismissed} past-due reminders.");
+                    ThisAddIn.LogDebug($"ReminderCleanup: dismissed {dismissed} past reminders.");
             }
             catch (Exception ex)
             {

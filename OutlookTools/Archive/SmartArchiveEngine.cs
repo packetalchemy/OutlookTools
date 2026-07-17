@@ -157,7 +157,7 @@ namespace OutlookTools.Archive
                 if (!File.Exists(archivePath))
                 {
                     // Create empty PST file via Outlook
-                    archiveStore = session.AddStore(archivePath);
+                    session.AddStore(archivePath);
                     // Rename the store to our friendly name
                     Outlook.Folder archiveRoot = session.GetDefaultFolder(
                         Outlook.OlDefaultFolders.olFolderInbox).Parent as Outlook.Folder;
