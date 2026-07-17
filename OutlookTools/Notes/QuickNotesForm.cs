@@ -43,7 +43,7 @@ namespace OutlookTools.Notes
             var topPanel = new Panel { Dock = DockStyle.Top, Height = 40 };
             topPanel.Controls.Add(new Label { Text = "🔍", Location = new Point(12, 10), Width = 20 });
             _txtSearch = new TextBox { Location = new Point(35, 8), Width = 300 };
-            _txtSearch.PlaceholderText = "Search notes...";
+            _txtSearch.Text = "Search notes...";
             _txtSearch.TextChanged += (s, e) => FilterNotes();
             topPanel.Controls.Add(_txtSearch);
             _btnNew = new Button
@@ -76,7 +76,7 @@ namespace OutlookTools.Notes
             y += 35;
 
             rightPanel.Controls.Add(new Label { Text = "Email Tag:", Location = new Point(10, y + 3), Width = 60 });
-            _txtEmailTag = new TextBox { Location = new Point(70, y), Width = 300, PlaceholderText = "Related email subject..." };
+            _txtEmailTag = new TextBox { Location = new Point(70, y), Width = 300 };
             rightPanel.Controls.Add(_txtEmailTag);
             y += 35;
 

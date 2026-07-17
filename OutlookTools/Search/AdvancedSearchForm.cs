@@ -29,7 +29,7 @@ namespace OutlookTools.Search
         private Button _btnSearch;
         private Button _btnSelectAll;
         private Button _btnClear;
-        private StatusStrip _statusBar;
+
         private Label _lblResultCount;
         private Panel _filterPanel;
         private SplitContainer _splitMain;
@@ -186,13 +186,11 @@ namespace OutlookTools.Search
 
             _splitMain.Panel2.Controls.Add(resultsPanel);
 
-            // Status bar
-            _statusBar = new StatusStrip();
-            _lblResultCount = new ToolStripStatusLabel("Ready");
-            _statusBar.Items.Add(_lblResultCount);
+            // Status bar (Label-based)
+            _lblResultCount = new Label { Text = "Ready", Dock = DockStyle.Bottom, Height = 25, TextAlign = System.Drawing.ContentAlignment.MiddleLeft, Padding = new Padding(5, 0, 0, 0) };
 
+            this.Controls.Add(_lblResultCount);
             this.Controls.Add(_splitMain);
-            this.Controls.Add(_statusBar);
         }
 
         private void RunSearch()

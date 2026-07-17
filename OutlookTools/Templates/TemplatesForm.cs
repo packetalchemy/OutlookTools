@@ -35,7 +35,7 @@ namespace OutlookTools.Templates
         private Button _btnDelete;
         private Button _btnNew;
         private Button _btnRefresh;
-        private StatusStrip _statusBar;
+
         private Label _lblStatus;
         private SplitContainer _splitMain;
 
@@ -171,13 +171,11 @@ namespace OutlookTools.Templates
 
             _splitMain.Panel2.Controls.Add(rightPanel);
 
-            // Status bar
-            _statusBar = new StatusStrip();
-            _lblStatus = new ToolStripStatusLabel("Ready");
-            _statusBar.Items.Add(_lblStatus);
+            // Status bar (Label-based)
+            _lblStatus = new Label { Text = "Ready", Dock = DockStyle.Bottom, Height = 25, TextAlign = System.Drawing.ContentAlignment.MiddleLeft, Padding = new Padding(5, 0, 0, 0) };
 
+            this.Controls.Add(_lblStatus);
             this.Controls.Add(_splitMain);
-            this.Controls.Add(_statusBar);
         }
 
         private void LoadTemplates()

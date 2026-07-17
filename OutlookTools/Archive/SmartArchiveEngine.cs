@@ -1,3 +1,4 @@
+using System.Drawing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,14 +36,7 @@ namespace OutlookTools.Archive
             try
             {
                 Outlook.NameSpace session = app.Session;
-                Outlook.Folders rootFolders = session.Stores
-                    .Cast<Outlook.Store>()
-                    .Where(s => s.IsRootStore)
-                    .SelectMany(s => new[] { session.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderInbox).Parent as Outlook.Folder })
-                    .ToList()
-                    .FirstOrDefault()?.Folders;
-
-                if (rootFolders == null) return;
+                // Iterate all stores (no IsRootStore filter)
 
                 int processed = 0;
                 var dateThreshold = GetArchiveThresholdDate();

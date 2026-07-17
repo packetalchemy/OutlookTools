@@ -29,7 +29,7 @@ namespace OutlookTools.Stats
         private ComboBox _cboPeriod;
         private Button _btnAnalyze;
         private Button _btnExport;
-        private StatusStrip _statusBar;
+
         private Label _lblStatus;
         private Label _lblSummary;
 
@@ -164,11 +164,9 @@ namespace OutlookTools.Stats
 
             this.Controls.Add(_tabs);
 
-            // Status bar
-            _statusBar = new StatusStrip();
-            _lblStatus = new ToolStripStatusLabel("Ready");
-            _statusBar.Items.Add(_lblStatus);
-            this.Controls.Add(_statusBar);
+            // Status bar (Label-based)
+            _lblStatus = new Label { Text = "Ready", Dock = DockStyle.Bottom, Height = 25, TextAlign = System.Drawing.ContentAlignment.MiddleLeft, Padding = new Padding(5, 0, 0, 0) };
+            this.Controls.Add(_lblStatus);
         }
 
         private void SetDefaultPeriod()

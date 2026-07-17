@@ -87,7 +87,7 @@ namespace OutlookTools.Commands
                 {
                     if (followUp)
                     {
-                        mail.FlagStatus = Outlook.OlFlagStatus.olFlagFollowUp;
+                        mail.FlagStatus = (Outlook.OlFlagStatus)1; // olFlagForward = 1
                         mail.FlagRequest = "Follow up";
                     }
                     else

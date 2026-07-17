@@ -36,7 +36,7 @@ namespace OutlookTools.Snooze
                 if (snoozeFolder == null) return;
 
                 // Set a reminder flag so we can find it later
-                mail.FlagStatus = Outlook.OlFlagStatus.olFlagFollowUp;
+                mail.FlagStatus = (Outlook.OlFlagStatus)1; // olFlagForward = 1
                 mail.FlagRequest = $"Snoozed until {until:yyyy-MM-dd HH:mm}";
                 mail.FlagDueBy = until;
                 mail.Save();

@@ -26,18 +26,18 @@ namespace OutlookTools
         public void ReminderCleanup() => Commands.ReminderCleanup.Run(Globals.ThisAddIn.Application);
 
         // PRODUCTIVITY
-        public void Templates() => Templates.TemplatesForm.ShowForm();
+        public void OpenTemplates() => Templates.TemplatesForm.ShowForm();
         public void BulkActions() => ShowBulkMenu();
         public void EmailStats() => Stats.EmailStatsForm.ShowForm();
 
         // SMART TOOLS — NEW in v1.2.0
-        public void FollowUp() => FollowUp.FollowUpDashboardForm.ShowForm();
-        public void Snooze() => ShowSnoozeMenu();
-        public void Digest() => Digest.DailyDigestForm.ShowForm();
-        public void Notes() => Notes.QuickNotesForm.ShowForm();
+        public void OpenFollowUp() => FollowUp.FollowUpDashboardForm.ShowForm();
+        public void OpenSnooze() => ShowSnoozeMenu();
+        public void OpenDigest() => Digest.DailyDigestForm.ShowForm();
+        public void OpenNotes() => Notes.QuickNotesForm.ShowForm();
 
         // SETTINGS
-        public void Settings() => Settings.SettingsForm.ShowForm();
+        public void OpenSettings() => Settings.SettingsForm.ShowForm();
 
         private void ShowBulkMenu()
         {

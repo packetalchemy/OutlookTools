@@ -17,16 +17,10 @@ namespace OutlookTools
 
         public Application Application => _application;
 
-        // Called by VSTO runtime when add-in loads
-        private void ThisAddIn_Startup(object sender, System.EventArgs e)
+        public void SetApplication(Application app)
         {
-            _application = this.Application;
+            _application = app;
             LogDebug("OutlookTools v1.2.0 started.");
-        }
-
-        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
-        {
-            LogDebug("OutlookTools v1.2.0 shut down.");
         }
 
         public static void LogDebug(string message)
@@ -42,13 +36,7 @@ namespace OutlookTools
             catch { }
         }
 
-        #region VSTO generated
-        private void InternalStartup()
-        {
-            this.Startup += new System.EventHandler(ThisAddIn_Startup);
-            this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
-        }
-        #endregion
+        // VSTO handlers removed — standalone mode
     }
 
     /// <summary>

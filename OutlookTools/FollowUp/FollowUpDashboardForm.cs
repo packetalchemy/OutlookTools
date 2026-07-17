@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace OutlookTools.FollowUp
 {
@@ -17,7 +18,7 @@ namespace OutlookTools.FollowUp
         private Button _btnRemove;
         private Button _btnExport;
         private Button _btnRefresh;
-        private StatusStrip _statusBar;
+
         private Label _lblStatus;
 
         public FollowUpDashboardForm()
@@ -91,11 +92,9 @@ namespace OutlookTools.FollowUp
             _listView.DoubleClick += (s, e) => OpenSelected();
             this.Controls.Add(_listView);
 
-            // Status bar
-            _statusBar = new StatusStrip();
-            _lblStatus = new ToolStripStatusLabel("Ready");
-            _statusBar.Items.Add(_lblStatus);
-            this.Controls.Add(_statusBar);
+            // Status bar (Label-based)
+            _lblStatus = new Label { Text = "Ready", Dock = DockStyle.Bottom, Height = 25, TextAlign = System.Drawing.ContentAlignment.MiddleLeft, Padding = new Padding(5, 0, 0, 0) };
+            this.Controls.Add(_lblStatus);
         }
 
         private void LoadItems()
