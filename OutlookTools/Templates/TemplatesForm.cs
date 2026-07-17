@@ -50,7 +50,7 @@ namespace OutlookTools.Templates
             LoadTemplates();
         }
 
-        public static void Show()
+        public static void ShowForm()
         {
             var form = new TemplatesForm();
             form.ShowDialog();

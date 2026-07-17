@@ -52,7 +52,7 @@ namespace OutlookTools.Stats
             SetDefaultPeriod();
         }
 
-        public static void Show()
+        public static void ShowForm()
         {
             var form = new EmailStatsForm();
             form.ShowDialog();

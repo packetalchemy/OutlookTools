@@ -27,7 +27,7 @@ namespace OutlookTools.Notes
             LoadNotes();
         }
 
-        public static void Show()
+        public static void ShowForm()
         {
             new QuickNotesForm().ShowDialog();
         }

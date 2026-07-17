@@ -30,7 +30,7 @@ namespace OutlookTools.Settings
             LoadSettings();
         }
 
-        public static void Show()
+        public static void ShowForm()
         {
             var form = new SettingsForm();
             form.ShowDialog();

@@ -27,7 +27,7 @@ namespace OutlookTools.FollowUp
             LoadItems();
         }
 
-        public static void Show()
+        public static void ShowForm()
         {
             new FollowUpDashboardForm().ShowDialog();
         }

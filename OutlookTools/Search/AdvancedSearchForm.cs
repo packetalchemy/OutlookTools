@@ -40,10 +40,10 @@ namespace OutlookTools.Search
             SetupUI();
         }
 
-        public static void Show()
+        public static void ShowForm()
         {
             var form = new AdvancedSearchForm();
-            form.Show();
+            form.ShowForm();
         }
 
         private void SetupUI()

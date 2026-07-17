@@ -23,7 +23,7 @@ namespace OutlookTools.Digest
             LoadDigest();
         }
 
-        public static void Show()
+        public static void ShowForm()
         {
             new DailyDigestForm().ShowDialog();
         }
