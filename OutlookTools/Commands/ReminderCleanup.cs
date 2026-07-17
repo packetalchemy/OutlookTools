@@ -17,7 +17,7 @@ namespace OutlookTools.Commands
         {
             try
             {
-                Outlook.Reminders reminders = app.Session.Reminders;
+                var reminders = app.Session.Reminders;
                 int dismissed = 0;
 
                 for (int i = reminders.Count; i >= 1; i--)

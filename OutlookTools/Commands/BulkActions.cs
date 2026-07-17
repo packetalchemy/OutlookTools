@@ -259,7 +259,7 @@ namespace OutlookTools.Commands
             try
             {
                 Outlook.NameSpace session = app.Session;
-                Outlook.MAPIFolder picker = session.PickFolder();
+                var picker = session.PickFolder();
                 return picker as Outlook.Folder;
             }
             catch { return null; }

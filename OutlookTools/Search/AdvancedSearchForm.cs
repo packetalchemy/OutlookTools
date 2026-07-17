@@ -43,7 +43,7 @@ namespace OutlookTools.Search
         public static void ShowForm()
         {
             var form = new AdvancedSearchForm();
-            form.ShowForm();
+            form.ShowDialog();
         }
 
         private void SetupUI()

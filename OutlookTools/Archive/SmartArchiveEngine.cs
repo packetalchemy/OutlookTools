@@ -127,7 +127,7 @@ namespace OutlookTools.Archive
         private static Outlook.Folder EnsureSeasonalArchive(Outlook.Application app)
         {
             string seasonName = GetCurrentSeasonName();
-            Outlook.Session session = app.Session;
+            Outlook.NameSpace session = app.Session;
 
             // Check if the archive store already exists
             Outlook.Stores stores = session.Stores;
