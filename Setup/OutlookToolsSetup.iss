@@ -26,8 +26,8 @@ MinVersion=10.0.17763
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\bin\Release\OutlookTools.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\OutlookTools.pdb"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "..\OutlookTools\bin\Release\OutlookTools.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\OutlookTools\bin\Release\OutlookTools.pdb"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "..\docs\Documentation.html"; DestDir: "{app}\docs"; Flags: ignoreversion
 Source: "..\docs\Documentation.md"; DestDir: "{app}\docs"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
