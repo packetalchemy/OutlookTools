@@ -42,10 +42,15 @@ Root: HKLM; Subkey: "SOFTWARE\Microsoft\Office\Outlook\Addins\OutlookTools.AddIn
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Office\Outlook\Addins\OutlookTools.AddIn"; ValueType: dword; ValueName: "LoadBehavior"; ValueData: 3; Flags: uninsdeletekey
 
 [Run]
-Filename: "{sys}\regasm.exe"; Parameters: "/codebase /tlb ""{app}\OutlookTools.dll"""; StatusMsg: "Registering..."; Flags: runhidden waituntilterminated
+; Use 64-bit regasm on 64-bit Windows
+Filename: "{win}\Microsoft.NET\Framework64\v4.0.30319\regasm.exe"; Parameters: "/codebase /tlb ""{app}\OutlookTools.dll"""; StatusMsg: "Registering OutlookTools..."; Flags: runhidden waituntilterminated skipifdoesntexist
+; Fallback: 32-bit regasm
+Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\regasm.exe"; Parameters: "/codebase /tlb ""{app}\OutlookTools.dll"""; StatusMsg: "Registering OutlookTools..."; Flags: runhidden waituntilterminated skipifdoesntexist
 
 [UninstallRun]
-Filename: "{sys}\regasm.exe"; Parameters: "/unregister ""{app}\OutlookTools.dll"""; Flags: runhidden waituntilterminated
+; Unregister on uninstall
+Filename: "{win}\Microsoft.NET\Framework64\v4.0.30319\regasm.exe"; Parameters: "/unregister ""{app}\OutlookTools.dll"""; Flags: runhidden waituntilterminated skipifdoesntexist RunOnceId="Unregister64"
+Filename: "{win}\Microsoft.NET\Framework\v4.0.30319\regasm.exe"; Parameters: "/unregister ""{app}\OutlookTools.dll"""; Flags: runhidden waituntilterminated skipifdoesntexist RunOnceId="Unregister32"
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}"
