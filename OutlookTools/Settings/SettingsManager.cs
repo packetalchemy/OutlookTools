@@ -92,7 +92,7 @@ namespace OutlookTools.Settings
   ""autoReminderEnabled"": {(_autoReminderEnabled ? "true" : "false")},
   ""debugLogEnabled"": {(_debugLogEnabled ? "true" : "false")},
   ""startupNotification"": {(_startupNotification ? "true" : "false")},
-  "lastDailyRun": "{_lastDailyRun:O}"
+  ""lastDailyRun"": ""{_lastDailyRun:O}""
 }}";
                 File.WriteAllText(SettingsFile, json);
             }
