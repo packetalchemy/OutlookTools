@@ -90,7 +90,7 @@ namespace OutlookTools.Archive
                         if (mail.ReceivedTime >= threshold) continue;
 
                         // Skip protected items (flagged for follow-up, categories)
-                        if (mail.FlagStatus == Outlook.OlFlagStatus.olFlagFollowUp) continue;
+                        if (mail.FlagStatus == Outlook.OlFlagStatus.olFlagMarked) continue;
                         if (mail.Categories != null && mail.Categories.Length > 0) continue;
 
                         // Move to seasonal archive folder

@@ -70,11 +70,11 @@ namespace OutlookTools
             {
                 if (item is MailItem mail)
                 {
-                    FollowUp.FollowUpTracker.TrackSentMail(mail);
+                    FollowUp.FollowUpTracker.TrackSentEmail(mail);
                     LogDebug($"Sent mail tracked: {mail.Subject}");
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 LogDebug($"ItemSend error: {ex.Message}");
             }
@@ -112,7 +112,7 @@ namespace OutlookTools
                 SmartArchiveEngine.Run(_application);
                 LogDebug("Auto-archive completed.");
             }
-            catch (Exception ex) { LogDebug($"Auto-archive error: {ex.Message}"); }
+            catch (System.Exception ex) { LogDebug($"Auto-archive error: {ex.Message}"); }
 
             // Reschedule for tomorrow at the same hour
             double nextRun = GetMinutesUntilHour(SettingsManager.GetArchiveHour());
@@ -127,7 +127,7 @@ namespace OutlookTools
                 if (!SettingsManager.GetAutoReminderEnabled()) return;
                 Commands.ReminderCleanup.Run(_application);
             }
-            catch (Exception ex) { LogDebug($"Reminder cleanup error: {ex.Message}"); }
+            catch (System.Exception ex) { LogDebug($"Reminder cleanup error: {ex.Message}"); }
         }
 
         private void FollowUpCallback(object sender, ElapsedEventArgs e)
@@ -136,7 +136,7 @@ namespace OutlookTools
             {
                 FollowUp.FollowUpTracker.CheckForReplies(_application);
             }
-            catch (Exception ex) { LogDebug($"Follow-up check error: {ex.Message}"); }
+            catch (System.Exception ex) { LogDebug($"Follow-up check error: {ex.Message}"); }
         }
 
         private void SnoozeRestoreCallback(object sender, ElapsedEventArgs e)
@@ -145,7 +145,7 @@ namespace OutlookTools
             {
                 Snooze.EmailSnooze.CheckAndRestore(_application);
             }
-            catch (Exception ex) { LogDebug($"Snooze restore error: {ex.Message}"); }
+            catch (System.Exception ex) { LogDebug($"Snooze restore error: {ex.Message}"); }
         }
 
         #endregion
