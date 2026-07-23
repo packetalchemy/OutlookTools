@@ -7,8 +7,6 @@ Uses regasm + manual HKCU registration for reliability.
 No administrator privileges needed.
 #>
 
-$ErrorActionPreference = "Stop"
-
 Write-Host "============================================" -ForegroundColor White
 Write-Host "    OutlookTools Installer" -ForegroundColor White
 Write-Host "    No Admin Rights Required!" -ForegroundColor White
@@ -39,11 +37,10 @@ if (Test-Path $SourcePath) {
     exit 1
 }
 
-# === Step 3: Register COM with regasm ===
+# === Step 3: Register COM with regasm (best-effort, don't stop on warnings) ===
 Write-Host "[3/5] Registering COM (regasm)..." -ForegroundColor Cyan
 $dllPath = "$InstallDir\OutlookTools.dll"
 
-# Try 64-bit first, then 32-bit
 $regasmPaths = @(
     "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe",
     "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe"
@@ -53,34 +50,39 @@ $regasmOk = $false
 foreach ($regPath in $regasmPaths) {
     if (Test-Path $regPath) {
         Write-Host "      Using: $regPath" -ForegroundColor DarkGray
-        $output = & $regPath $dllPath /codebase /tlb 2>&1
-        if ($LASTEXITCODE -eq 0) {
+        # Suppress stderr (regasm warnings) — they are NOT errors
+        $proc = Start-Process -FilePath $regPath -ArgumentList "`"$dllPath`" /codebase /tlb" -Wait -PassThru -NoNewWindow -RedirectStandardError "$env:TEMP\regasm_err.txt"
+        $regasmErr = ""
+        if (Test-Path "$env:TEMP\regasm_err.txt") {
+            $regasmErr = Get-Content "$env:TEMP\regasm_err.txt" -Raw
+            Remove-Item "$env:TEMP\regasm_err.txt" -ErrorAction SilentlyContinue
+        }
+        if ($proc.ExitCode -eq 0) {
             $regasmOk = $true
             Write-Host "      regasm OK!" -ForegroundColor Green
-            break
         } else {
-            Write-Host "      regasm failed (exit $LASTEXITCODE): $output" -ForegroundColor Yellow
+            Write-Host "      regasm exit code: $($proc.ExitCode)" -ForegroundColor Yellow
+            if ($regasmErr) { Write-Host "      $($regasmErr.Trim())" -ForegroundColor DarkGray }
         }
+        break
     }
 }
 
 if (-not $regasmOk) {
-    Write-Host "      WARNING: regasm failed. Trying manual registration..." -ForegroundColor Yellow
+    Write-Host "      regasm had issues — manual registration will handle it." -ForegroundColor Yellow
 }
 
-# === Step 4: Manual HKCU Registration (always run, ensures reliability) ===
+# === Step 4: Manual HKCU Registration (ALWAYS runs — the reliable path) ===
 Write-Host "[4/5] Registering in HKCU (per-user)..." -ForegroundColor Cyan
 
-# The CLSID from ThisAddIn.cs [Guid] attribute
 $CLSID = "{8B8E5F3E-1C2D-4A3B-9E7F-6D5C4B3A2F1E}"
 $ProgId = "OutlookTools.AddIn"
 
-# CLSID entries
+# CLSID base entry
 $clsidBase = "HKCU:\Software\Classes\CLSID\$CLSID"
 New-Item -Path "$clsidBase" -Force | Out-Null
 New-ItemProperty -Path "$clsidBase" -Name "(Default)" -Value "OutlookTools Add-In" -PropertyType String -Force | Out-Null
 New-ItemProperty -Path "$clsidBase" -Name "ProgId" -Value $ProgId -PropertyType String -Force | Out-Null
-New-ItemProperty -Path "$clsidBase" -Name "TypeLib" -Value "{00020813-0000-0000-C000-000000000046}" -PropertyType String -Force | Out-Null
 New-ItemProperty -Path "$clsidBase" -Name "Version" -Value "1.2" -PropertyType String -Force | Out-Null
 
 # InprocServer32 — tells COM how to load the .NET DLL
@@ -97,11 +99,10 @@ New-ItemProperty -Path "$inprocBase" -Name "CodeBase" -Value "file:///$($dllPath
 $progIdKey = "HKCU:\Software\Classes\$ProgId"
 New-Item -Path "$progIdKey\CLSID" -Force | Out-Null
 New-ItemProperty -Path "$progIdKey" -Name "(Default)" -Value $CLSID -PropertyType String -Force | Out-Null
-New-ItemProperty -Path "$progIdKey\CLSID" -Name "(Default)" -Value $CLSID -PropertyType String -Force | Out-Null
 
 Write-Host "      HKCU registration complete." -ForegroundColor Green
 
-# === Step 5: Verify & Add Outlook Add-in Entry ===
+# === Step 5: Register with Outlook ===
 Write-Host "[5/5] Registering with Outlook..." -ForegroundColor Cyan
 $AddinKey = "HKCU:\Software\Microsoft\Office\Outlook\Addins\$ProgId"
 New-Item -Path $AddinKey -Force | Out-Null
@@ -109,12 +110,12 @@ New-ItemProperty -Path $AddinKey -Name "Description" -Value "OutlookTools - Open
 New-ItemProperty -Path $AddinKey -Name "FriendlyName" -Value "OutlookTools v1.2.1" -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $AddinKey -Name "LoadBehavior" -Value 3 -PropertyType DWord -Force | Out-Null
 
-# === Verify registration ===
+# === Verify ===
 Write-Host ""
 Write-Host "Verifying registration..." -ForegroundColor Cyan
 
-$verifyClsid = Get-ItemProperty -Path "$clsidBase" -ErrorAction SilentlyContinue
-$verifyAddin = Get-ItemProperty -Path $AddinKey -ErrorAction SilentlyContinue
+$verifyClsid = Test-Path "$clsidBase"
+$verifyAddin = Test-Path $AddinKey
 $verifyDll = Test-Path $dllPath
 
 if ($verifyClsid -and $verifyAddin -and $verifyDll) {
@@ -123,7 +124,9 @@ if ($verifyClsid -and $verifyAddin -and $verifyDll) {
     Write-Host "  [OK] DLL exists: $dllPath" -ForegroundColor Green
     Write-Host "  [OK] Outlook add-in entry: LoadBehavior=3" -ForegroundColor Green
 } else {
-    Write-Host "  [WARN] Some registrations may be missing" -ForegroundColor Yellow
+    if (-not $verifyClsid) { Write-Host "  [FAIL] CLSID not found" -ForegroundColor Red }
+    if (-not $verifyAddin) { Write-Host "  [FAIL] Add-in entry not found" -ForegroundColor Red }
+    if (-not $verifyDll)   { Write-Host "  [FAIL] DLL not found" -ForegroundColor Red }
 }
 
 Write-Host ""
