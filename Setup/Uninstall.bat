@@ -6,14 +6,7 @@ echo    OutlookTools Uninstaller
 echo ============================================
 echo.
 
-:: Check admin rights
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo [ERROR] This uninstaller needs Administrator rights!
-    echo Right-click and select "Run as Administrator"
-    pause
-    exit /b 1
-)
+:: No admin rights required — per-user uninstall
 
 echo [1/3] Finding OutlookTools.dll...
 set DLL_PATH=%~dp0OutlookTools.dll

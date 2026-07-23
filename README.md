@@ -111,9 +111,22 @@ msbuild OutlookTools.sln /p:Configuration=Debug
 
 ## Installation
 
-1. Build the project (see above)
-2. Run the generated `OutlookTools.vsto` installer
-3. Start Outlook — the "OutlookTools" tab will appear
+### Quick Install (no admin rights needed)
+
+1. Build the project (see above) or download from GitHub Releases
+2. Open the `Setup` folder
+3. Double-click **`Setup.bat`** — that's it!
+4. Start Outlook — the "OutlookTools" tab will appear
+
+> ⚠️ **No "Run as Administrator" needed!** The installer registers for your user account only.
+
+### Alternative: Inno Setup Installer
+
+See `Setup/SETUP_README.md` for building a standalone `.exe` installer with [Inno Setup](https://jrsoftware.org/isinfo.php).
+
+### Uninstall
+
+Run **`Setup/Uninstall.bat`** — no admin rights required.
 
 ---
 

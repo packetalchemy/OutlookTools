@@ -5,7 +5,7 @@
 #define MyAppVersion "1.2.0"
 
 [Setup]
-AppId={{8B8E5F3E-1C2D-4A3B-9E7F-6D5C4B3A2F1E}
+AppId={8B8E5F3E-1C2D-4A3B-9E7F-6D5C4B3A2F1E}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 DefaultDirName={localappdata}\{#MyAppName}

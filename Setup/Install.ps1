@@ -23,7 +23,7 @@ if (Test-Path $SourcePath) {
 } else {
     Write-Host "ERROR: OutlookTools.dll not found at $SourcePath" -ForegroundColor Red
     Write-Host "Please build the project first (Build > Release)" -ForegroundColor Yellow
-    pause
+    Read-Host -Prompt "Press Enter to exit"
     exit 1
 }
 

@@ -404,7 +404,7 @@ namespace OutlookTools.Stats
             using (var sfd = new SaveFileDialog
             {
                 Filter = "CSV files (*.csv)|*.csv",
-                FileName = $"EmailTools_Stats_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
+                FileName = $"OutlookTools_Stats_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
             })
             {
                 if (sfd.ShowDialog() != DialogResult.OK) return;

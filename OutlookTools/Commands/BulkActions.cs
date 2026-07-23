@@ -183,7 +183,7 @@ namespace OutlookTools.Commands
             using (var sfd = new SaveFileDialog
             {
                 Filter = "CSV files (*.csv)|*.csv",
-                FileName = $"EmailTools_Export_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
+                FileName = $"OutlookTools_Export_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
             })
             {
                 if (sfd.ShowDialog() != DialogResult.OK) return;
