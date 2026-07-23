@@ -16,6 +16,7 @@ echo [2/4] Cleaning old registration...
 reg delete "HKCU\Software\Classes\CLSID\{8B8E5F3E-1C2D-4A3B-9E7F-6D5C4B3A2F1E}" /f >nul 2>&1
 reg delete "HKCU\Software\Classes\OutlookTools.AddIn" /f >nul 2>&1
 reg delete "HKCU\Software\Microsoft\Office\Outlook\Addins\OutlookTools.AddIn" /f >nul 2>&1
+reg delete "HKCU\Software\Microsoft\Office\16.0\Outlook\Addins\OutlookTools.AddIn" /f >nul 2>&1
 echo   Old entries removed.
 echo.
 
@@ -54,9 +55,9 @@ reg add "HKCU\Software\Classes\TypeLib\{96A197CC-38FD-4899-8EFF-5B263FE8BB8D}\1.
 reg add "HKCU\Software\Classes\OutlookTools.AddIn" /ve /t REG_SZ /d "OutlookTools" /f >nul
 reg add "HKCU\Software\Classes\OutlookTools.AddIn\CLSID" /ve /t REG_SZ /d "{8B8E5F3E-1C2D-4A3B-9E7F-6D5C4B3A2F1E}" /f >nul
 
-reg add "HKCU\Software\Microsoft\Office\Outlook\Addins\OutlookTools.AddIn" /v "Description" /t REG_SZ /d "OutlookTools" /f >nul
-reg add "HKCU\Software\Microsoft\Office\Outlook\Addins\OutlookTools.AddIn" /v "FriendlyName" /t REG_SZ /d "OutlookTools v1.2.1" /f >nul
-reg add "HKCU\Software\Microsoft\Office\Outlook\Addins\OutlookTools.AddIn" /v "LoadBehavior" /t REG_DWORD /d 3 /f >nul
+reg add "HKCU\Software\Microsoft\Office\16.0\Outlook\Addins\OutlookTools.AddIn" /v "Description" /t REG_SZ /d "OutlookTools" /f >nul
+reg add "HKCU\Software\Microsoft\Office\16.0\Outlook\Addins\OutlookTools.AddIn" /v "FriendlyName" /t REG_SZ /d "OutlookTools v1.2.1" /f >nul
+reg add "HKCU\Software\Microsoft\Office\16.0\Outlook\Addins\OutlookTools.AddIn" /v "LoadBehavior" /t REG_DWORD /d 3 /f >nul
 
 echo   Registry entries created.
 echo.

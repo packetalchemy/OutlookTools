@@ -36,7 +36,7 @@ if %errorLevel% neq 0 (
 echo.
 
 echo [4/5] Checking Outlook Add-in entry...
-reg query "HKCU\Software\Microsoft\Office\Outlook\Addins\OutlookTools.AddIn" /s 2>nul
+reg query "HKCU\Software\Microsoft\Office\16.0\Outlook\Addins\OutlookTools.AddIn" /s 2>nul
 if %errorLevel% neq 0 (
     echo   [FAIL] Outlook add-in entry not found
 ) else (

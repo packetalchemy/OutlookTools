@@ -115,7 +115,7 @@ Write-Host "      HKCU registration complete." -ForegroundColor Green
 
 # Step 5: Register with Outlook
 Write-Host "[5/5] Registering with Outlook..." -ForegroundColor Cyan
-$AddinKey = "HKCU:\Software\Microsoft\Office\Outlook\Addins\$ProgId"
+$AddinKey = "HKCU:\Software\Microsoft\Office\16.0\Outlook\Addins\$ProgId"
 New-Item -Path $AddinKey -Force | Out-Null
 New-ItemProperty -Path $AddinKey -Name "Description" -Value "OutlookTools" -PropertyType String -Force | Out-Null
 New-ItemProperty -Path $AddinKey -Name "FriendlyName" -Value "OutlookTools v1.2.1" -PropertyType String -Force | Out-Null
