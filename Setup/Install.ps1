@@ -80,6 +80,7 @@ if (-not $regasmOk) {
 Write-Host "[4/5] Registering in HKCU (per-user)..." -ForegroundColor Cyan
 
 $CLSID = "{8B8E5F3E-1C2D-4A3B-9E7F-6D5C4B3A2F1E}"
+$TypeLib = "{96A197CC-38FD-4899-8EFF-5B263FE8BB8D}"
 $ProgId = "OutlookTools.AddIn"
 
 # CLSID base entry
@@ -88,6 +89,11 @@ New-Item -Path "$clsidBase" -Force | Out-Null
 New-ItemProperty -Path "$clsidBase" -Name "(Default)" -Value "OutlookTools Add-In" -PropertyType String -Force | Out-Null
 New-ItemProperty -Path "$clsidBase" -Name "ProgId" -Value $ProgId -PropertyType String -Force | Out-Null
 New-ItemProperty -Path "$clsidBase" -Name "Version" -Value "1.2" -PropertyType String -Force | Out-Null
+
+# TypeLib subkey (MUST be different from CLSID!)
+$typeLibBase = "$clsidBase\TypeLib"
+New-Item -Path "$typeLibBase" -Force | Out-Null
+New-ItemProperty -Path "$typeLibBase" -Name "(Default)" -Value $TypeLib -PropertyType String -Force | Out-Null
 
 # InprocServer32
 $inprocBase = "$clsidBase\InprocServer32"
@@ -122,14 +128,17 @@ Write-Host "Verifying registration..." -ForegroundColor Cyan
 $ok1 = Test-Path "$clsidBase"
 $ok2 = Test-Path $AddinKey
 $ok3 = Test-Path $dllPath
+$ok4 = Test-Path "$typeLibBase"
 
-if ($ok1 -and $ok2 -and $ok3) {
+if ($ok1 -and $ok2 -and $ok3 -and $ok4) {
     Write-Host "  [OK] CLSID: $CLSID" -ForegroundColor Green
+    Write-Host "  [OK] TypeLib: $TypeLib" -ForegroundColor Green
     Write-Host "  [OK] ProgId: $ProgId" -ForegroundColor Green
     Write-Host "  [OK] DLL: $dllPath" -ForegroundColor Green
     Write-Host "  [OK] Outlook add-in: LoadBehavior=3" -ForegroundColor Green
 } else {
     if (-not $ok1) { Write-Host "  [FAIL] CLSID not found" -ForegroundColor Red }
+    if (-not $ok4) { Write-Host "  [FAIL] TypeLib not found" -ForegroundColor Red }
     if (-not $ok2) { Write-Host "  [FAIL] Add-in entry not found" -ForegroundColor Red }
     if (-not $ok3) { Write-Host "  [FAIL] DLL not found" -ForegroundColor Red }
 }
